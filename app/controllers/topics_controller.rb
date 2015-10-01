@@ -15,7 +15,7 @@ class TopicsController < ApplicationController
   		end
 
   		if params[:order]
-  			sort_by = (params[:order] == "name") ? 'name' : 'created_at'
+  			sort_by = (params[:order]+" ASC")
   			@topics = Topic.order(sort_by).page(params[:page]).per(5) 
   		end
 
@@ -42,6 +42,8 @@ class TopicsController < ApplicationController
 	end	
 
 	def show
+		@feedbacks = @topic.feedbacks
+		@feedback = @topic.feedbacks.new
 	end
 
 	def update
@@ -63,6 +65,7 @@ class TopicsController < ApplicationController
 
 	def aboutsite
 		@topics =Topic.all
+		@feedbacks = @topics
 	end
 
 

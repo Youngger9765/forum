@@ -4,14 +4,12 @@ class TopicFeedbacksController < ApplicationController
 
 	def index
 		if params[:order]
-			sort_by = (params[:order] == "name") ? "name" : "created_at" 
+			sort_by = (params[:order] == "content") ? "content" : "created_at" 
 			@feedbacks = @topic.feedbacks.order(sort_by).page(params[:page]).per(5)
 			Rails.logger.debug("XXxXXXX")
 		else
-			@feedbacks = @topic.feedbacks.order("id ASC").page(params[:page]).per(5)
+			@feedbacks = @topic.feedbacks.order("id DESC").page(params[:page]).per(5)
 		end
-
-		
 	end
 
 	def show
@@ -26,7 +24,7 @@ class TopicFeedbacksController < ApplicationController
 		@feedback = @topic.feedbacks.build(feedback_params)
 
 		if @feedback.save
-			redirect_to topic_feedbacks_path(@topic)
+			redirect_to topic_path(@topic)
 			flash[:notice] = "Create Success"
 		elsif 
 			flash[:alert] = "Create Fail"

@@ -3,7 +3,8 @@
 
 
 <ul>
-	<li><%= link_to "Sort By Name", topics_path( :order => "name")%></li>	
+	<li><%= link_to "Sort By Title Name", topics_path( :order => "name")%></li>	
+	<li><%= link_to "Sort By Created Time", topics_path( :order => "created_at")%></li>	
 	<li><%= link_to "Sort By Default", topics_path %></li>
 
 </ul>
@@ -22,7 +23,7 @@
 
 	<tr>
 		<td>
-			<%=t.name%>
+		<%= link_to t.name, topic_path(t)%>
 			
 		</td>
 		<td>
@@ -39,7 +40,7 @@
 			<%= link_to "Feedback", topic_feedbacks_path(t),:class => "btn btn-primary"%>
 		</td>
 		<td>
-			<%= link_to "Show", topic_path(t),:class => "btn btn-primary"%>
+			
 			<%= link_to "Edit", topics_path(:topic_id => t ), :class => "btn btn-default"%>
 			<%= link_to "Delete", topic_path(t), :method => :delete, :data => {:confirm => "sure?"},:class => "btn btn-danger" %>
 		</td>

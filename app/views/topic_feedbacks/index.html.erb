@@ -1,12 +1,17 @@
 <h1>Feedback</h1>
+<ul>
+<li><%= link_to "Sort_by Created Time", topic_feedbacks_path(:order => "created_at")%></li>
 
-<%= link_to "XX", topic_feedbacks_path(:order => "created_at")%>
+<li><%= link_to "Sort by content", topic_feedbacks_path(:order => "content")%></li>
 
-<%= link_to "name", topic_feedbacks_path(:order => "name")%>
+<li><%= link_to "Sort by default", topic_feedbacks_path%></li>
 
-<%= link_to "Sort by default", topic_feedbacks_path%>
 
 <%= link_to "New Feedback", new_topic_feedback_path(@topic), :class => "btn btn-primary"%>
+
+
+</ul>
+
 <table class="table">
 	<tr>
 		<td>Feedback Content</td>

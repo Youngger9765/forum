@@ -1,10 +1,36 @@
-<h1>SHOW Page</h1>
+<h1>Title:<%= @topic.name %></h1>
 
 <ul>
-<li>Title:<%= @topic.name %></li>
 <li>Category:<%= @topic.category.try(:name) %></li>
 <li>Auther<%= @topic.user.try(:email)%></li>
 <li>Content:<%= @topic.content %></li> 
 
 </ul>
+
+<h3>Feedbacks:</h3>
+<% @feedbacks.each do |fe| %>
+<ul>
+	<li>
+		<%= fe.content%>
+	</li>
+
+
+</ul>
+
+<%end%>
+
+<%= form_for @feedback, :url => topic_feedbacks_path(@topic), :class =>"form" do |fe|%>
+
+	<div class="form-group">
+		<%=fe.label :content, "Content"%>
+		<%=fe.text_area :content, :class => "form-control"%>
+	</div>
+
+	<%=fe.submit "Create", :class => "btn btn-primary"%>
+
+<%end%>
+
+
+
+
 <%= link_to "Topics Index", topics_path%>
