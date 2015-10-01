@@ -32,6 +32,8 @@ class TopicsController < ApplicationController
 			render "index"
 		end
 
+		@topic.user = current_user
+
 	end	
 
 	def show
