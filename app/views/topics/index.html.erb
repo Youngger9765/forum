@@ -9,7 +9,7 @@
 		</td>
 		<td>
 			<%= link_to "Show", topic_path(t),:class => "btn btn-primary"%>
-			<%= link_to "Edit", edit_topic_path(t), :class => "btn btn-default"%>
+			<%= link_to "Edit", topics_path(:topic_id => t ), :class => "btn btn-default"%>
 			<%= link_to "Delete", topic_path(t), :method => :delete, :data => {:confirm => "sure?"},:class => "btn btn-danger" %>
 		</td>
 	</tr>
@@ -18,4 +18,28 @@
 
 
 
-<%= link_to "New a Topic", new_topic_path,:class => "btn btn-primary"%>
+<%= link_to "New a Topic", topics_path,:class => "btn btn-primary"%>
+
+
+<%#將edit new 放到首頁%>
+
+
+
+
+
+<%= form_for @topic do |t| %>
+    
+	<% if @topic.errors.any? %>
+      <ul>
+          <% @topic.errors.full_messages.each do |m| %>
+            <li><%= m %></li>
+        <% end %>
+      </ul>
+    <% end %>
+
+	<%= render :partial => 'form', :locals => { :t => t} %>
+
+    <%= t.submit "Submit",:class => "btn btn-primary" %>
+<% end %>
+
+

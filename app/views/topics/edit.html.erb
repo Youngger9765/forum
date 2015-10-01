@@ -1,16 +1,10 @@
 <h1>Edit Page</h1>
 
 
-<%= form_for @topic do |t|%>
-	<div class="form-group">
-		<%=t.label :name, "Title"%>
-		<%=t.text_field :name, :class => "form-control"%>
-	</div>
-	<div class="form-group">
-		<%=t.label :content, "Content"%>
-		<%=t.text_area :content, :class => "form-control"%>
-	</div>
-	<%=t.submit "Update", :class => "btn btn-primary"%>
+<%= form_for @topic, :class =>"form" do |t|%>
+
+<%= render :partial =>"form", :locals => {:t => t} %>
+<%=t.submit "Update", :class => "btn btn-primary"%>
 
 <%end%>
 

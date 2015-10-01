@@ -2,11 +2,7 @@
 
 <%= form_for @topic do |t|%>
 	
-	<%=t.label :name, "Title"%>
-	<%=t.text_field :name%>
-
-	<%=t.label :content, "Content"%>
-	<%=t.text_area :content%>
+<%= render :partial =>"form", :locals => {:t => t} %>
 
 	<%=t.submit "Create"%>
 
