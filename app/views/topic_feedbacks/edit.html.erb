@@ -1,0 +1,12 @@
+<h1>Edit Page</h1>
+
+<%= form_for @feedback, :url => topic_feedback_path(@topic, @feedback), :class =>"form", :method => :patch do |fe|%>
+
+	<div class="form-group">
+		<%=fe.label :content, "Content"%>
+		<%=fe.text_area :content, :class => "form-control"%>
+	</div>
+
+	<%=fe.submit "Update", :class => "btn btn-primary"%>
+
+<%end%>

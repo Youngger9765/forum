@@ -37,10 +37,7 @@ class TopicsController < ApplicationController
 	end	
 
 	def show
-
 	end
-
-
 
 	def update
 		if @topic.update(topic_params)

@@ -1,12 +1,20 @@
 <h1>Feedback</h1>
 
-<ul>
+<table class="table">
 <% @feedbacks.each do |fe| %>
-	<li><%= fe.content %></li>
-
+	<tr>
+	<td>
+	<%= fe.content %>
+	</td>
+	<td>
 	<%= link_to "Show", topic_feedback_path(@topic, fe), :class => "btn btn-primary"%>
-<%end%>
-</ul>
+	<%= link_to "Edit", edit_topic_feedback_path(@topic, fe), :class => "btn btn-default"%>
 
+	</td>
+	</tr>
+<%end%>
+</table>
+
+<%= link_to "New Feedback", new_topic_feedback_path(@topic), :class => "btn btn-primary"%>
 
 <%= link_to "Topics Index", topic_path(@topic), :class => "btn btn-primary"%>
