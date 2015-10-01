@@ -64,6 +64,7 @@ class TopicsController < ApplicationController
 	end
 
 	def aboutsite
+		@user = User.all
 		@topics =Topic.all
 		@feedbacks = @topics
 	end
