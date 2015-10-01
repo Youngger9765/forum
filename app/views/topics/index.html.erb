@@ -1,0 +1,18 @@
+<h1>TOPICS INDEX</h1>
+
+
+<% @topics.each do |t| %>
+	<ul>
+		<li>
+			<%=t.name%>
+			<%= link_to "Show", topic_path(t)%>
+			<%= link_to "Edit", edit_topic_path(t)%>
+
+		</li>
+	</ul>
+<%end%>
+
+
+
+
+<%= link_to "New a Topic", new_topic_path%>
