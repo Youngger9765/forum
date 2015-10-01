@@ -1,0 +1,12 @@
+<h1>Feedback</h1>
+
+<ul>
+<% @feedbacks.each do |fe| %>
+	<li><%= fe.content %></li>
+
+	<%= link_to "Show", topic_feedback_path(@topic, fe), :class => "btn btn-primary"%>
+<%end%>
+</ul>
+
+
+<%= link_to "Topics Index", topic_path(@topic), :class => "btn btn-primary"%>
