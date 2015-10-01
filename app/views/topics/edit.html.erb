@@ -1,3 +1,17 @@
 <h1>Edit Page</h1>
 
+<%= form_for @topic do |t|%>
+	
+	<%=t.label :name, "Title"%>
+	<%=t.text_field :name%>
 
+	<%=t.label :content, "Content"%>
+	<%=t.text_area :content%>
+
+	<%=t.submit "Update"%>
+
+<%end%>
+
+
+
+<%= link_to "Topics Index", topics_path%>

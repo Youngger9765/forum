@@ -7,6 +7,7 @@
 			<%=t.name%>
 			<%= link_to "Show", topic_path(t)%>
 			<%= link_to "Edit", edit_topic_path(t)%>
+			<%= link_to "Delete", topic_path(t), :method => :delete, :data => {:confirm => "sure?"} %>
 
 		</li>
 	</ul>

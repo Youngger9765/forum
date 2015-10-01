@@ -22,15 +22,19 @@ class TopicsController < ApplicationController
 	end
 
 	def edit
-		
+
 	end
 
 	def update
-		
+		@topic.update(topic_params)
+
+		redirect_to topics_path
 	end
 
 	def destroy
-		
+		@topic.destroy
+
+		redirect_to topics_path
 	end
 
 
@@ -41,7 +45,7 @@ class TopicsController < ApplicationController
 	end
 
 	def topic_params_id
-		@topic =Topic.find(params[:id])
+		@topic = Topic.find(params[:id])
 	end
 
 
