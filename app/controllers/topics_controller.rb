@@ -27,13 +27,13 @@ class TopicsController < ApplicationController
 
 	def update
 		@topic.update(topic_params)
-
+		flash[:notice] = "Update Success!"
 		redirect_to topics_path
 	end
 
 	def destroy
 		@topic.destroy
-
+		flash[:alert] = "DELETE DONE!"
 		redirect_to topics_path
 	end
 

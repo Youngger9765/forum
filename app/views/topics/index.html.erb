@@ -1,19 +1,21 @@
 <h1>TOPICS INDEX</h1>
 
 
+<table class="table">
 <% @topics.each do |t| %>
-	<ul>
-		<li>
+	<tr>
+		<td>
 			<%=t.name%>
-			<%= link_to "Show", topic_path(t)%>
-			<%= link_to "Edit", edit_topic_path(t)%>
-			<%= link_to "Delete", topic_path(t), :method => :delete, :data => {:confirm => "sure?"} %>
-
-		</li>
-	</ul>
+		</td>
+		<td>
+			<%= link_to "Show", topic_path(t),:class => "btn btn-primary"%>
+			<%= link_to "Edit", edit_topic_path(t), :class => "btn btn-default"%>
+			<%= link_to "Delete", topic_path(t), :method => :delete, :data => {:confirm => "sure?"},:class => "btn btn-danger" %>
+		</td>
+	</tr>
 <%end%>
+</table>
 
 
 
-
-<%= link_to "New a Topic", new_topic_path%>
+<%= link_to "New a Topic", new_topic_path,:class => "btn btn-primary"%>
