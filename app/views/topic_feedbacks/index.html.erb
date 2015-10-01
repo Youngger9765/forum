@@ -1,6 +1,12 @@
 <h1>Feedback</h1>
 
 <table class="table">
+	<tr>
+		<td>Feedback Content</td>
+		<td>Control</td>
+
+	</tr>
+
 <% @feedbacks.each do |fe| %>
 	<tr>
 	<td>
@@ -9,6 +15,7 @@
 	<td>
 	<%= link_to "Show", topic_feedback_path(@topic, fe), :class => "btn btn-primary"%>
 	<%= link_to "Edit", edit_topic_feedback_path(@topic, fe), :class => "btn btn-default"%>
+	<%= link_to "Delete", topic_feedback_path(@topic,fe), :method => :delete, :data => {:confirm => "sure?"},:class => "btn btn-danger" %>
 
 	</td>
 	</tr>

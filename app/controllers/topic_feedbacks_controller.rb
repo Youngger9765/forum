@@ -42,6 +42,12 @@ class TopicFeedbacksController < ApplicationController
 		end
 	end
 
+	def destroy
+		@feedback = @topic.feedbacks.find(params[:id])
+		@feedback.destroy
+		redirect_to topic_feedbacks_path(@topic)
+	end
+
 
 
 	private
