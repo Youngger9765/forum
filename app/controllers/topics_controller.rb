@@ -6,8 +6,8 @@ class TopicsController < ApplicationController
 		@topics = Topic.all
 
 		#如果出現 tipic_id 代表針對個案id處理edit
-		if params[:topic]
-  			@topic = Topic.find( params[:topic] )
+		if params[:topic_id]
+  			@topic = Topic.find( params[:topic_id] )
   		else
 			@topic = Topic.new
   		end

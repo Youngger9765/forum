@@ -1,6 +1,8 @@
 <h1>TOPICS INDEX</h1>
 
 
+<hr>
+
 <table class="table">
 <% @topics.each do |t| %>
 	<tr>
@@ -17,29 +19,28 @@
 </table>
 
 
-
-<%= link_to "New a Topic", topics_path,:class => "btn btn-primary"%>
-
-
 <%#將edit new 放到首頁%>
+<%
+  if params[:topic_id]
+    url = topic_path(@topic)
+  else
+    url = topics_path
+  end
+%>
 
+<%= link_to "New Topic", topics_path,:class => "btn btn-primary"%>
 
-
-
-
-<%= form_for @topic do |t| %>
-    
-	<% if @topic.errors.any? %>
-      <ul>
-          <% @topic.errors.full_messages.each do |m| %>
-            <li><%= m %></li>
-        <% end %>
-      </ul>
-    <% end %>
+<%= form_for @topic, :url => url do |t| %>
 
 	<%= render :partial => 'form', :locals => { :t => t} %>
 
     <%= t.submit "Submit",:class => "btn btn-primary" %>
+
 <% end %>
+
+
+
+
+
 
 
