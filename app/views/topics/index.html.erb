@@ -1,10 +1,14 @@
 <h1>TOPICS INDEX</h1>
 
 
-<hr>
 
 <table class="table">
 <% @topics.each do |t| %>
+	<tr>
+		<td>Title</td>
+		<td>Control</td>
+
+	</tr>
 	<tr>
 		<td>
 			<%=t.name%>

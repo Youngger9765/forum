@@ -1,5 +1,7 @@
 class TopicsController < ApplicationController
 
+	before_action :authenticate_user!, :except => [:index]
+
 	before_action :topic_params_id, :only =>[ :show, :update, :destroy]
 
 	def index
