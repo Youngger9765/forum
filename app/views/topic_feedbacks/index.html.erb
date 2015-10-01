@@ -3,6 +3,7 @@
 <table class="table">
 	<tr>
 		<td>Feedback Content</td>
+		<td>Feedback Time</td>
 		<td>Control</td>
 
 	</tr>
@@ -11,6 +12,9 @@
 	<tr>
 	<td>
 	<%= fe.content %>
+	</td>
+	<td>
+		<%= fe.created_at%>
 	</td>
 	<td>
 	<%= link_to "Show", topic_feedback_path(@topic, fe), :class => "btn btn-primary"%>

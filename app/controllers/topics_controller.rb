@@ -5,7 +5,7 @@ class TopicsController < ApplicationController
 	before_action :topic_params_id, :only =>[ :show, :update, :destroy]
 
 	def index
-		@topics = Topic.all
+		@topics = Topic.order("id DESC").page(params[:page]).per(5)
 
 		#如果出現 tipic_id 代表針對個案id處理edit
 		if params[:topic_id]
