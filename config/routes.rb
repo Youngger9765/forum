@@ -1,8 +1,13 @@
 Rails.application.routes.draw do
 
   devise_for :users
+  
   resources :topics  do #RESTful
     resources :feedbacks, :controller =>"topic_feedbacks"
+  
+    collection do
+      get :aboutsite
+    end
   end
 
   # The priority is based upon order of creation: first created -> highest priority.

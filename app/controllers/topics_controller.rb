@@ -14,6 +14,11 @@ class TopicsController < ApplicationController
 			@topic = Topic.new
   		end
 
+  		if params[:order]
+  			sort_by = (params[:order] == "name") ? 'name' : 'created_at'
+  			@topics = Topic.order(sort_by).page(params[:page]).per(5) 
+  		end
+
 	end
 
 	def new
@@ -56,11 +61,15 @@ class TopicsController < ApplicationController
 		redirect_to topics_path
 	end
 
+	def aboutsite
+		@topics =Topic.all
+	end
+
 
 	private
 
 	def topic_params
-		params.require(:topic).permit(:name, :content)
+		params.require(:topic).permit(:name, :content, :category_id)
 	end
 
 	def topic_params_id

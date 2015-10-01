@@ -3,7 +3,15 @@ class TopicFeedbacksController < ApplicationController
 	before_action :set_topic_id
 
 	def index
-		@feedbacks = @topic.feedbacks
+		if params[:order]
+			sort_by = (params[:order] == "name") ? "name" : "created_at" 
+			@feedbacks = @topic.feedbacks.order(sort_by).page(params[:page]).per(5)
+			Rails.logger.debug("XXxXXXX")
+		else
+			@feedbacks = @topic.feedbacks.order("id ASC").page(params[:page]).per(5)
+		end
+
+		
 	end
 
 	def show

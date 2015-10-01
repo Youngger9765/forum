@@ -1,5 +1,12 @@
 <h1>Feedback</h1>
 
+<%= link_to "XX", topic_feedbacks_path(:order => "created_at")%>
+
+<%= link_to "name", topic_feedbacks_path(:order => "name")%>
+
+<%= link_to "Sort by default", topic_feedbacks_path%>
+
+<%= link_to "New Feedback", new_topic_feedback_path(@topic), :class => "btn btn-primary"%>
 <table class="table">
 	<tr>
 		<td>Feedback Content</td>
@@ -26,6 +33,9 @@
 <%end%>
 </table>
 
-<%= link_to "New Feedback", new_topic_feedback_path(@topic), :class => "btn btn-primary"%>
+<%= paginate @feedbacks %>
 
-<%= link_to "Topics Index", topic_path(@topic), :class => "btn btn-primary"%>
+
+<hr>
+
+<%= link_to "Topics Index", topics_path, :class => "btn btn-primary"%>

@@ -2,6 +2,7 @@
 
 <ul>
 <li>Title:<%= @topic.name %></li>
+<li>Category:<%= @topic.category.try(:name) %></li>
 <li>Auther<%= @topic.user.try(:email)%></li>
 <li>Content:<%= @topic.content %></li> 
 

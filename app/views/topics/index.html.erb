@@ -1,13 +1,20 @@
-<h1>TOPICS INDEX</h1>
+<h1>TOPICS INDEX</h1> 
+<h2><%= link_to "About Site", aboutsite_topics_path,:class => "btn btn-default"%></h2>
 
 
+<ul>
+	<li><%= link_to "Sort By Name", topics_path( :order => "name")%></li>	
+	<li><%= link_to "Sort By Default", topics_path %></li>
 
+</ul>
 
 <table class="table">
 	<tr>
 		<td>Title</td>
+		<td>Category</td>
 		<td>User</td>
-		<td>Feedback</td>
+		<td>Post Time</td>
+		<td>Feedbacks</td>
 		<td>Control</td>
 	</tr>
 
@@ -16,11 +23,19 @@
 	<tr>
 		<td>
 			<%=t.name%>
+			
+		</td>
+		<td>
+			<%=t.category.try(:name)%>
 		</td>
 		<td>
 			<%=t.user.try(:email)%>
 		</td>
 		<td>
+			<%=t.created_at%>
+		</td>
+		<td>
+			<%= t.feedbacks.size %> pieces of 
 			<%= link_to "Feedback", topic_feedbacks_path(t),:class => "btn btn-primary"%>
 		</td>
 		<td>
