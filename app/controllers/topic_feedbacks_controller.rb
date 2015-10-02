@@ -5,17 +5,12 @@ class TopicFeedbacksController < ApplicationController
 	before_action :set_topic_id
 
 	def index
-		if params[:order]
-			sort_by = (params[:order] == "content") ? "content" : "created_at" 
-			@feedbacks = @topic.feedbacks.order(sort_by).page(params[:page]).per(5)
-			Rails.logger.debug("XXxXXXX")
-		else
-			@feedbacks = @topic.feedbacks.order("id DESC").page(params[:page]).per(5)
-		end
+		@feedbacks = @topic.feedbacks
+
 	end
 
 	def show
-		@feedback = @topic.feedbacks.find( params[:id])
+		@feedback = @topic.feedbacks.find(params[:id])
 	end
 
 	def new
@@ -52,9 +47,9 @@ class TopicFeedbacksController < ApplicationController
 	end
 
 	def destroy
-		@feedback = @topic.feedbacks.find(params[:id])
+		@feedback = Feedback.find(params[:id])
 		@feedback.destroy
-		redirect_to topic_feedbacks_path(@topic)
+		redirect_to topic_path(@topic)
 	end
 
 
@@ -62,7 +57,7 @@ class TopicFeedbacksController < ApplicationController
 	private
 
 	def set_topic_id
-		@topic= Topic.find( params[:topic_id] )
+		@topic= Topic.find(params[:topic_id] )
 	end
 
 	def feedback_params

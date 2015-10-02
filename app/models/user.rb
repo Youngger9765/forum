@@ -9,6 +9,8 @@ class User < ActiveRecord::Base
   has_many :topics 
   has_many :feedbacks
 
-
+  def admin?
+  	self.role == "admin"
+  end
 
 end

@@ -15,17 +15,27 @@
 	<td>Feebacker</td>
 	<td>Feedback Time</td>
 	<td>Content</td>
+	<td>Control</td>
 </tr>
 
 
 <% @feedbacks.each do |fe| %>
 <tr>
-	<td><%= fe.user.try(:email)%></td>
+	<td><%= fe.user_email%></td>
 	<td><%= fe.created_at%></td>
 	<td><%= fe.content%></td>
+	<td>
+	<% if current_user == nil %>
+		<%="ＸＸＸ"%>
+	<% elsif fe.user_email == current_user.email  %>
+		<%= link_to "Edit", edit_topic_feedback_path(@topic,fe),:class => "btn btn-default"%>
+		<%= link_to "Delete", topic_feedback_path(@topic,fe), :method => :delete, :data => {:confirm => "Are you sure?"},:class => "btn btn-danger"%>
+	<%end%>
+	</td>
 </tr>
 
 <%end%>
+
 </table>
 
 <%= form_for @feedback, :url => topic_feedbacks_path(@topic), :class =>"form" do |fe|%>
@@ -41,5 +51,5 @@
 
 
 
-
+<hr>
 <%= link_to "Topics Index", topics_path%>

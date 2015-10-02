@@ -47,7 +47,7 @@ class TopicsController < ApplicationController
 
 	def show
 		@feedbacks = @topic.feedbacks
-		@feedback = @topic.feedbacks.new
+		@feedback = Feedback.new
 	end
 
 	def update
@@ -86,7 +86,7 @@ class TopicsController < ApplicationController
 		end
 
 		redirect_to :back
-		
+
 	end
 
 
@@ -97,7 +97,18 @@ class TopicsController < ApplicationController
 	end
 
 	def topic_params_id
-		@topic = Topic.find(params[:id])
+		if current_user == nil
+			@topic = Topic.find(params[:id])
+		elsif current_user.admin? 
+			@topic = Topic.find(params[:id])
+		else
+			if current_user.topics.find(params[:id])
+				@topic = current_user.topics.find(params[:id])
+			else
+				flash[:alert] = "You don't have the permission!"
+				redirect_to	
+			end		
+		end
 	end
 
 

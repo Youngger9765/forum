@@ -10,6 +10,7 @@
 <div class="container">
 	<div class="row">
 		<div class="col-md-12">
+			<h1>This is Admin Page</h1>
 			<%if flash[:notice].present? %>
 				<div class="alert alert-success" role="alert">
 					<%= flash[:notice] %>
@@ -29,21 +30,18 @@
           		<%= link_to('註冊', new_registration_path(:user)) %> |
           		<%= link_to('登入', new_session_path(:user)) %>
       		<% end %>
-
 			<%= yield %>
-      		<hr>
-      		
+
 			<%if current_user && current_user.admin?%>
 				<%= link_to "ADMIN", admin_topics_path %>
 			<% end %>
-			
+
 
 		</div>
 
 	</div>
 
 </div>
-
 
 
 

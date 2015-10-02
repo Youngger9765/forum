@@ -1,13 +1,10 @@
 <h1>Edit Page</h1>
 
-
 <%= form_for @topic, :class =>"form" do |t|%>
 
 <%= render :partial =>"form", :locals => {:t => t} %>
 <%=t.submit "Update", :class => "btn btn-primary"%>
 
 <%end%>
-
-
 
 <%= link_to "Topics Index", topics_path%>

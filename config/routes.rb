@@ -13,6 +13,10 @@ Rails.application.routes.draw do
 
   end
 
+  namespace :admin do
+    resources :topics
+  end
+
   root :to => "topics#index"
 
   # The priority is based upon order of creation: first created -> highest priority.
