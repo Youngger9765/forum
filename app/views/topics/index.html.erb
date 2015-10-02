@@ -3,19 +3,18 @@
 
 
 <ul>
-	<li><%= link_to "Sort By Title Name", topics_path( :order => "name")%></li>	
-	<li><%= link_to "Sort By Created Time", topics_path( :order => "created_at")%></li>	
+	
 	<li><%= link_to "Sort By Default", topics_path %></li>
-	<li><%= link_to "Sort By feddback_num", topics_path( :order => "feddback_num")%></li>	
+
 </ul>
 
 <table class="table">
 	<tr>
-		<td>Title</td>
+		<td><%= link_to "Title", topics_path( :order => "name")%></td>
 		<td>Category</td>
 		<td>User</td>
-		<td>Post Time</td>
-		<td>Feedbacks</td>
+		<td><%= link_to "Post Time", topics_path( :order => "created_at")%></td>
+		<td> <%= link_to "Feedbacks", topics_path( :order => "feedbacks_count")%></td>
 		<td>Control</td>
 	</tr>
 

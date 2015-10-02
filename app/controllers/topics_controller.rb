@@ -14,12 +14,8 @@ class TopicsController < ApplicationController
 			@topic = Topic.new
   		end
 
-  		if params[:order] == "feddback_num"
-
-  		end
-
-  		if params[:order] && params[:order] !== "feddback_num"
-  			sort_by = (params[:order]+" ASC")
+  		if params[:order] 
+  			sort_by = (params[:order]+" DESC")
   			@topics = Topic.order(sort_by).page(params[:page]).per(5) 
   		end
 
