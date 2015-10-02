@@ -2,7 +2,7 @@ class TopicsController < ApplicationController
 
 	before_action :authenticate_user!, :except => [:index,:show]
 
-	before_action :topic_params_id, :only =>[ :show, :update, :destroy]
+	before_action :topic_params_id, :only =>[ :update, :destroy]
 
 	def index
 		@topics = Topic.order("id DESC").page(params[:page]).per(5)
@@ -41,11 +41,10 @@ class TopicsController < ApplicationController
 			render "index"
 		end
 
-		
-
 	end	
 
 	def show
+		@topic = Topic.find(params[:id])
 		@feedbacks = @topic.feedbacks
 		@feedback = Feedback.new
 	end
@@ -97,10 +96,9 @@ class TopicsController < ApplicationController
 	end
 
 	def topic_params_id
-		if current_user == nil
+		if current_user == nil ||current_user.admin? 
 			@topic = Topic.find(params[:id])
-		elsif current_user.admin? 
-			@topic = Topic.find(params[:id])
+		
 		else
 			if current_user.topics.find(params[:id])
 				@topic = current_user.topics.find(params[:id])

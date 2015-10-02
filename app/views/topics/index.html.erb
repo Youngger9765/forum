@@ -19,58 +19,65 @@
 		<td> <%= link_to "Feedbacks", topics_path( :order => "feedbacks_count")%></td>
 		<td>Feedbackers</td>
 		<td>Control</td>
+		<td>Status</td>
 	</tr>
 
-<% @topics.each do |t| %>
+	<% @topics.each do |t| %>
+		
+		<tr>
+		<%# 未登入者, 不能看到draft%>
+		<% if current_user == nil && t.status == "draft"%>
+		<%# 一般登入者 非管理員 無法看到別人的draft%>
+		<td><%= "你沒有權限"%></td>
+		<% elsif current_user != nil && current_user.role !="admin" && t.status =="draft" && t.user_email != current_user.email%>
+		<td><%= "你沒有權限"%></td>
+		<%# 管理員可看到全部 或 文章的所有者 %>
+		<% else %>
 
-	<tr>
-		<td>
-		<%= check_box_tag "ids[]", t.id, false %>
-		<%= link_to t.name, topic_path(t)%>
-			
-		</td>
-		<td>
-			<%= t.category_name%>
-		</td>
-		<td>
-			<%= t.user_email%>
+			<td>
+			<%= check_box_tag "ids[]", t.id, false %>
+			<%= link_to t.name, topic_path(t)%>
+				
+			</td>
+			<td>
+				<%= t.category_name%>
+			</td>
+			<td>
+				<%= t.user_email%>
 
-		</td>
-		<td>
-			<%= t.created_at%>
-		</td>
-		<td>
-			<%= t.feedbacks.size %> pieces of feedback
-		</td>
-		<td>
-			<ul>
-				<% t.feedbacks.each do |fe| %>
-					<li><%= fe.user_email %></li>
+			</td>
+			<td>
+				<%= t.created_at%>
+			</td>
+			<td>
+				<%= t.feedbacks.size %> pieces of feedback
+			</td>
+			<td>
+				<ul>
+					<% t.feedbacks.each do |fe| %>
+						<li><%= fe.user_email %></li>
+					<%end%>
+				</ul>
+			</td>
+			<td>
+
+				<%if current_user == nil%> 
+				<%#沒登入者時，這段須在前面，or current_user.email 會出現 error%>
+				<p> <%= "XXX" %></p>
+				<%elsif t.user_email==current_user.email%>
+				<%= link_to "Edit", topics_path(:topic_id => t ), :class => "btn btn-default"%>
+				<%= link_to "Delete", topic_path(t), :method => :delete, :data => {:confirm => "sure?"},:class => "btn btn-danger" %>
 				<%end%>
-			</ul>
-		</td>
-		<td>
+			</td>
+			<td><%=t.status%></td>
+		</tr>
 
-			<%if current_user == nil%> 
-			<%#沒登入者時，這段須在前面，or current_user.email 會出現 error%>
-			<p> <%= "XXX" %></p>
-			<%elsif t.user_email==current_user.email%>
-			<%= link_to "Edit", topics_path(:topic_id => t ), :class => "btn btn-default"%>
-			<%= link_to "Delete", topic_path(t), :method => :delete, :data => {:confirm => "sure?"},:class => "btn btn-danger" %>
+		<%end%>
 
-			
-			<%end%>
-
-		</td>
-	</tr>
-<%end%>
+	<%end%>
 </table>
-
-	
-
 	<%= submit_tag "Delete"%>
 	<%= submit_tag "Publish"%>
-
 <%end%>
 
 <%= paginate @topics %>

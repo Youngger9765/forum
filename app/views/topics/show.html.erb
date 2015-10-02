@@ -16,6 +16,7 @@
 	<td>Feedback Time</td>
 	<td>Content</td>
 	<td>Control</td>
+	<td>Status</td>
 </tr>
 
 
@@ -32,6 +33,9 @@
 		<%= link_to "Delete", topic_feedback_path(@topic,fe), :method => :delete, :data => {:confirm => "Are you sure?"},:class => "btn btn-danger"%>
 	<%end%>
 	</td>
+	<td>
+		<%= fe.status %>
+	</td>
 </tr>
 
 <%end%>
@@ -43,6 +47,11 @@
 	<div class="form-group">
 		<%=fe.label :content, "Content"%>
 		<%=fe.text_area :content, :class => "form-control"%>
+	</div>
+
+	<div class="form-group">
+	<%=fe.label :status, "Status"%>
+	<%=fe.select :status,[["Published","published"],["Draft","draft"]]%>
 	</div>
 
 	<%=fe.submit "Create", :class => "btn btn-primary"%>

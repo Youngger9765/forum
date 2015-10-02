@@ -7,6 +7,11 @@
 		<%=fe.text_area :content, :class => "form-control"%>
 	</div>
 
+	<div class="form-group">
+	<%=fe.label :status, "Status"%>
+	<%=fe.select :status,[["Published","published"],["Draft","draft"]]%>
+	</div>
+
 	<%=fe.submit "Update", :class => "btn btn-primary"%>
 
 <%end%>

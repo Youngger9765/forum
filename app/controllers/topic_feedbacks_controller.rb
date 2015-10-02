@@ -39,7 +39,7 @@ class TopicFeedbacksController < ApplicationController
 
 		if @feedback.update (feedback_params)
 			flash[:notice] = "Feedback Update!"
-			redirect_to topic_feedbacks_path(@topic)
+			redirect_to topic_path(@topic)
 		else
 			flash[:alert] = "Feedback fail"
 			render "edit"
@@ -61,7 +61,7 @@ class TopicFeedbacksController < ApplicationController
 	end
 
 	def feedback_params
-		params.require(:feedback).permit(:content)
+		params.require(:feedback).permit(:content, :status)
 	end
 
 
