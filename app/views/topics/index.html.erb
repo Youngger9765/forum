@@ -1,4 +1,4 @@
-<h1>政客爽 <%= link_to "About", aboutsite_topics_path,:class => "btn btn-default"%></h1> 
+<h1>政客爽 爽爽爽爽 <%= link_to "About", aboutsite_topics_path,:class => "btn btn-default"%></h1> 
 
 <h3>翻轉立院</h3>
 
@@ -30,7 +30,7 @@
 			
 		</td>
 		<td>
-			<%= t.category.try(:name)%>
+			<%= t.category_name%>
 		</td>
 		<td>
 			<%= t.user.try(:email)%>
@@ -43,7 +43,11 @@
 			<%= t.feedbacks.size %> pieces of feedback
 		</td>
 		<td>
-			<%= t.feedbacks.user.try(:email) %>
+			<ul>
+				<% t.feedbacks.each do |fe| %>
+					<li><%= fe.user.try(:email) %></li>
+				<%end%>
+			</ul>
 		</td>
 		<td>
 			

@@ -1,8 +1,9 @@
 <h1>Title:<%= @topic.name %></h1>
 
 <ul>
-<li>Category:<%= @topic.category.try(:name) %></li>
-<li>Auther<%= @topic.user.try(:email)%></li>
+<li>Category:<%= @topic.category_name %></li>
+<li>Author:<%= @topic.user_email%></li>
+<li>Status:<%= @topic.status%></li>
 <li>Content:<%= @topic.content %></li> 
 
 </ul>
