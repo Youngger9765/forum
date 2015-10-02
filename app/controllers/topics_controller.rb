@@ -1,6 +1,6 @@
 class TopicsController < ApplicationController
 
-	before_action :authenticate_user!, :except => [:index]
+	before_action :authenticate_user!, :except => [:index,:show]
 
 	before_action :topic_params_id, :only =>[ :show, :update, :destroy]
 
@@ -14,10 +14,16 @@ class TopicsController < ApplicationController
 			@topic = Topic.new
   		end
 
-  		if params[:order]
+  		if params[:order] == "feddback_num"
+
+  		end
+
+  		if params[:order] && params[:order] !== "feddback_num"
   			sort_by = (params[:order]+" ASC")
   			@topics = Topic.order(sort_by).page(params[:page]).per(5) 
   		end
+
+
 
 	end
 
@@ -27,7 +33,9 @@ class TopicsController < ApplicationController
 
 	def create
 
-		@topic = Topic.new( topic_params)
+		@topic = Topic.new(topic_params)
+		@topic.user = current_user
+
 		if @topic.save
 			redirect_to topics_path
 			flash[:notice] = "Create Success"
@@ -37,7 +45,7 @@ class TopicsController < ApplicationController
 			render "index"
 		end
 
-		@topic.user = current_user
+		
 
 	end	
 

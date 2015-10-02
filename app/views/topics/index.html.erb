@@ -1,12 +1,12 @@
-<h1>TOPICS INDEX</h1> 
-<h2><%= link_to "About Site", aboutsite_topics_path,:class => "btn btn-default"%></h2>
+<h1>JKSong <%= link_to "About", aboutsite_topics_path,:class => "btn btn-default"%></h1> 
+
 
 
 <ul>
 	<li><%= link_to "Sort By Title Name", topics_path( :order => "name")%></li>	
 	<li><%= link_to "Sort By Created Time", topics_path( :order => "created_at")%></li>	
 	<li><%= link_to "Sort By Default", topics_path %></li>
-
+	<li><%= link_to "Sort By feddback_num", topics_path( :order => "feddback_num")%></li>	
 </ul>
 
 <table class="table">
@@ -27,13 +27,14 @@
 			
 		</td>
 		<td>
-			<%=t.category.try(:name)%>
+			<%= t.category.try(:name)%>
 		</td>
 		<td>
-			<%=t.user.try(:email)%>
+			<%= t.user.try(:email)%>
+
 		</td>
 		<td>
-			<%=t.created_at%>
+			<%= t.created_at%>
 		</td>
 		<td>
 			<%= t.feedbacks.size %> pieces of feedback
@@ -51,6 +52,8 @@
 
 
 <%#將edit new 放到首頁%>
+<%= link_to "New Topic", topics_path,:class => "btn btn-primary"%>
+
 <%
   if params[:topic_id]
     url = topic_path(@topic)
@@ -58,8 +61,6 @@
     url = topics_path
   end
 %>
-
-<%= link_to "New Topic", topics_path,:class => "btn btn-primary"%>
 
 <%= form_for @topic, :url => url do |t| %>
 

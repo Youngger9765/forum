@@ -1,5 +1,7 @@
 class TopicFeedbacksController < ApplicationController
 
+	before_action :authenticate_user!
+
 	before_action :set_topic_id
 
 	def index
@@ -22,6 +24,7 @@ class TopicFeedbacksController < ApplicationController
 
 	def create
 		@feedback = @topic.feedbacks.build(feedback_params)
+		@feedback.user = current_user
 
 		if @feedback.save
 			redirect_to topic_path(@topic)

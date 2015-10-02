@@ -7,20 +7,28 @@
 
 </ul>
 
+
 <h3>Feedbacks:</h3>
+<table class="table">
+<tr>
+	<td>Feebacker</td>
+	<td>Feedback Time</td>
+	<td>Content</td>
+</tr>
+
+
 <% @feedbacks.each do |fe| %>
-<ul>
-	<li>
-		<%= fe.content%>
-	</li>
-
-
-</ul>
+<tr>
+	<td><%= fe.user.try(:email)%></td>
+	<td><%= fe.created_at%></td>
+	<td><%= fe.content%></td>
+</tr>
 
 <%end%>
+</table>
 
 <%= form_for @feedback, :url => topic_feedbacks_path(@topic), :class =>"form" do |fe|%>
-
+	
 	<div class="form-group">
 		<%=fe.label :content, "Content"%>
 		<%=fe.text_area :content, :class => "form-control"%>
