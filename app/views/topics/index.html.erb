@@ -33,7 +33,7 @@
 			<%= t.category_name%>
 		</td>
 		<td>
-			<%= t.user.try(:email)%>
+			<%= t.user_email%>
 
 		</td>
 		<td>
@@ -45,7 +45,7 @@
 		<td>
 			<ul>
 				<% t.feedbacks.each do |fe| %>
-					<li><%= fe.user.try(:email) %></li>
+					<li><%= fe.user_email %></li>
 				<%end%>
 			</ul>
 		</td>
