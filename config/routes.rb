@@ -7,8 +7,9 @@ Rails.application.routes.draw do
   
     collection do
       get :aboutsite
+      
+      post :bulk_update
     end
-
 
   end
 

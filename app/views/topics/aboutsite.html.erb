@@ -1,12 +1,12 @@
 <p>
-There are <%= @topics.size %> Topics in this site.
+Topics:<%= @topics.size %> 
 </p>
 <p>
-	feedback num: <%=%>
+	Feedback: <%= @feedbacks.count %>
 </p>
 
 <p>
-	We have <%= @user.count %> users.
+	Users:<%= @user.count %>
 </p>
 
 <%= link_to "Topics Index", topics_path%>

@@ -70,7 +70,23 @@ class TopicsController < ApplicationController
 	def aboutsite
 		@user = User.all
 		@topics =Topic.all
-		@feedbacks = @topics
+		@feedbacks = Feedback.all
+	end
+
+	def bulk_update
+
+		ids =Array(params[:ids])
+
+		topics = ids.map{|i| Topic.find_by_id(i)}.compact
+		
+		if params[:commit] == "Delete"
+			topics.each {|t| t.destroy}
+		elsif params[:commit] == "Publish" 
+			topics.each {|t| t.update(:status => "published")}
+		end
+
+		redirect_to :back
+		
 	end
 
 

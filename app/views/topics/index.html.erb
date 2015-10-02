@@ -1,20 +1,23 @@
-<h1>JKSong <%= link_to "About", aboutsite_topics_path,:class => "btn btn-default"%></h1> 
+<h1>政客爽 <%= link_to "About", aboutsite_topics_path,:class => "btn btn-default"%></h1> 
 
-
+<h3>翻轉立院</h3>
 
 <ul>
-	
 	<li><%= link_to "Sort By Default", topics_path %></li>
-
 </ul>
+
+<%=form_tag bulk_update_topics_path do %> <form>
 
 <table class="table">
 	<tr>
-		<td><%= link_to "Title", topics_path( :order => "name")%></td>
+		<td>
+		
+		<%= link_to "Title", topics_path( :order => "name")%></td>
 		<td>Category</td>
 		<td>User</td>
 		<td><%= link_to "Post Time", topics_path( :order => "created_at")%></td>
 		<td> <%= link_to "Feedbacks", topics_path( :order => "feedbacks_count")%></td>
+		<td>Feedbackers</td>
 		<td>Control</td>
 	</tr>
 
@@ -22,6 +25,7 @@
 
 	<tr>
 		<td>
+		<%= check_box_tag "ids[]", t.id, false %>
 		<%= link_to t.name, topic_path(t)%>
 			
 		</td>
@@ -39,6 +43,9 @@
 			<%= t.feedbacks.size %> pieces of feedback
 		</td>
 		<td>
+			<%= t.feedbacks.user.try(:email) %>
+		</td>
+		<td>
 			
 			<%= link_to "Edit", topics_path(:topic_id => t ), :class => "btn btn-default"%>
 			<%= link_to "Delete", topic_path(t), :method => :delete, :data => {:confirm => "sure?"},:class => "btn btn-danger" %>
@@ -46,6 +53,12 @@
 	</tr>
 <%end%>
 </table>
+
+
+	<%= submit_tag "Delete"%>
+	<%= submit_tag "Publish"%>
+
+<%end%>
 
 <%= paginate @topics %>
 
