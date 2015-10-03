@@ -5,8 +5,8 @@ class TopicsController < ApplicationController
 	before_action :topic_params_id, :only =>[ :update, :destroy]
 
 	def index
-		@topics = Topic.order("id DESC").page(params[:page]).per(5)
 
+		@topics = Topic.order("id DESC").page(params[:page]).per(5)
 		#如果出現 tipic_id 代表針對個案id處理edit
 		if params[:topic_id]
   			@topic = Topic.find( params[:topic_id] )
@@ -19,7 +19,19 @@ class TopicsController < ApplicationController
   			@topics = Topic.order(sort_by).page(params[:page]).per(5) 
   		end
 
+  		#決定使用者權限提供觀看授權
+  		if current_user == nil
+  			@topics = Topic.where(:status => "published")
+  			@topics = @topics.order("id DESC").page(params[:page]).per(5)
 
+  		elsif current_user && current_user != "admin"
+  			@topics = Topic.where("user_id = ? OR status = ?", current_user.id , "published")
+			@topics = @topics.order("id DESC").page(params[:page]).per(5)
+ 					
+  		elsif current_user == "admin"
+  			@topics == 	Topic.order("id DESC").page(params[:page]).per(5)
+
+  		end
 
 	end
 

@@ -27,7 +27,7 @@
 	<td><%= fe.content%></td>
 	<td>
 	<% if current_user == nil %>
-		<%="ＸＸＸ"%>
+		<%="XXX"%>
 	<% elsif fe.user_email == current_user.email  %>
 		<%= link_to "Edit", edit_topic_feedback_path(@topic,fe),:class => "btn btn-default"%>
 		<%= link_to "Delete", topic_feedback_path(@topic,fe), :method => :delete, :data => {:confirm => "Are you sure?"},:class => "btn btn-danger"%>

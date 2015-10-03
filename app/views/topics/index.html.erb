@@ -25,15 +25,7 @@
 	<% @topics.each do |t| %>
 		
 		<tr>
-		<%# 未登入者, 不能看到draft%>
-		<% if current_user == nil && t.status == "draft"%>
-		<%# 一般登入者 非管理員 無法看到別人的draft%>
-		<td><%= "你沒有權限"%></td>
-		<% elsif current_user != nil && current_user.role !="admin" && t.status =="draft" && t.user_email != current_user.email%>
-		<td><%= "你沒有權限"%></td>
-		<%# 管理員可看到全部 或 文章的所有者 %>
-		<% else %>
-
+		
 			<td>
 			<%= check_box_tag "ids[]", t.id, false %>
 			<%= link_to t.name, topic_path(t)%>
@@ -71,9 +63,6 @@
 			</td>
 			<td><%=t.status%></td>
 		</tr>
-
-		<%end%>
-
 	<%end%>
 </table>
 	<%= submit_tag "Delete"%>
