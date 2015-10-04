@@ -14,23 +14,25 @@ class TopicsController < ApplicationController
 			@topic = Topic.new
   		end
 
-  		if params[:order] 
-  			sort_by = (params[:order]+" DESC")
-  			@topics = Topic.order(sort_by).page(params[:page]).per(5) 
-  		end
+  		
 
   		#決定使用者權限提供觀看授權
   		if current_user == nil
   			@topics = Topic.where(:status => "published")
   			@topics = @topics.order("id DESC").page(params[:page]).per(5)
 
-  		elsif current_user && current_user != "admin"
+  		elsif current_user && current_user.role != "admin"
   			@topics = Topic.where("user_id = ? OR status = ?", current_user.id , "published")
 			@topics = @topics.order("id DESC").page(params[:page]).per(5)
  					
-  		elsif current_user == "admin"
+  		elsif current_user.role == "admin"
   			@topics == 	Topic.order("id DESC").page(params[:page]).per(5)
 
+  		end
+
+  		if params[:order] 
+  			sort_by = (params[:order]+" DESC")
+  			@topics = Topic.order(sort_by).page(params[:page]).per(5) 
   		end
 
 	end
@@ -40,7 +42,6 @@ class TopicsController < ApplicationController
 	end
 
 	def create
-
 		@topic = Topic.new(topic_params)
 		@topic.user = current_user
 
@@ -52,12 +53,22 @@ class TopicsController < ApplicationController
 			flash[:alert] = "Create Fail"
 			render "index"
 		end
-
 	end	
 
 	def show
 		@topic = Topic.find(params[:id])
-		@feedbacks = @topic.feedbacks
+
+		if current_user == nil
+			@feedbacks = @topic.feedbacks.where(:status => "published" )
+		
+		elsif current_user && current_user.role != "admin"
+			@feedbacks = @topic.feedbacks.where("user_id = ? OR status =?", current_user.id,"published")
+		
+		else current_user.role	== "admin"
+			@feedbacks = @topic.feedbacks.all
+			
+		end
+
 		@feedback = Feedback.new
 	end
 
