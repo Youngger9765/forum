@@ -1,16 +1,18 @@
-<h1>翻轉立院 <%= link_to "Index", topics_path, :class => "btn btn-default"%> <%= link_to "About", aboutsite_topics_path,:class => "btn btn-default"%></h1> 
+<h1>翻轉立院 Fliply <%= link_to "Index", topics_path, :class => "btn btn-default"%> <%= link_to "About", aboutsite_topics_path,:class => "btn btn-default"%></h1> 
 
 <%#= link_to "profile index", profiles_path%>
 
-<ul>
-	<li><%= link_to "Sort By Default", topics_path %></li>
-</ul>
+
 
 <table class="table">
 	<tr>
-		<td>
-			<%= link_to "分類列表", topics_path( :Category => "1")%>
+		<td>分類列表
+			<% Category.all.each do |c|%>
+			<%= link_to c.name, topics_path( :category => c.id), :class => "btn btn-primary"%>
+			<%end%>
+			<%= link_to "Default", topics_path,:class => "btn btn-primary" %>
 		</td>
+
 	
 	</tr>
 </table>

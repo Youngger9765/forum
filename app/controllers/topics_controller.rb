@@ -22,21 +22,39 @@ class TopicsController < ApplicationController
   			if params[:order] 
 	  			sort_by = (params[:order]+" DESC")
 	  			@topics = @topics.order(sort_by).page(params[:page]).per(5) 
+  				
+  			elsif params[:category]
+  				@topics = @topics.where(:category_id => params[:category])
+  				sort_by = (params[:category]+" DESC")
+  				@topics = @topics.order(sort_by).page(params[:page]).per(5)
   			else
   				@topics = @topics.order("id DESC").page(params[:page]).per(5)
   			end
+
   		elsif current_user && current_user.role != "admin"
   			@topics = Topic.where("user_id = ? OR status = ?", current_user.id , "published")
 			
-  			if params[:order] 
-	  			sort_by = (params[:order]+" DESC")
+  			if params[:order] || params[:category]
+	  				if 	params[:order]
+	  					sort_by = (params[:order]+" DESC")
+	  				elsif params[:category]
+	  					@topics = @topics.where(:category_id => params[:category])
+	  					sort_by = (params[:category]+" DESC")
+	  				end	
+
 	  			@topics = @topics.order(sort_by).page(params[:page]).per(5) 
+  			
   			else
 				@topics = @topics.order("id DESC").page(params[:page]).per(5)
  			end	
+
   		elsif current_user.role == "admin"
   			if params[:order]
 				@topics = Topic.order(sort_by).page(params[:page]).per(5) 
+	  		elsif params[:category]
+	  			@topics = @topics.where(:category_id => params[:category])
+	  			sort_by = (params[:category]+" DESC")
+	  			@topics = @topics.order(sort_by).page(params[:page]).per(5)
 	  		else
 	  			@topics == 	Topic.order("id DESC").page(params[:page]).per(5)
   			end
