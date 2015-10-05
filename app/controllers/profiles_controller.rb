@@ -2,6 +2,12 @@ class ProfilesController < ApplicationController
 
 	def index
 
+		if params[:topic_id]
+  			@topic = Topic.find( params[:topic_id] )
+  		else
+			@topic = Topic.new
+  		end
+
 		#只允許 admin 進入
 		unless current_user.admin?
 			#flash[:alert] ="No Permission!"
@@ -20,8 +26,6 @@ class ProfilesController < ApplicationController
 
 	def show
 		@profile = User.find(params[:id])
-
-		
 
 		if current_user == nil
 			@topics = Topic.where(:user_id => params[:id], :status => "published")

@@ -20,22 +20,35 @@
 					<%= flash[:alert] %>
 				</div>
 			<%end%>
+			<div id="fb-root"></div>
 
 			<% if current_user %>
-				Hello! <%= link_to current_user.email, profile_path(current_user.id) %>
+				Hello! <%= image_tag current_user.gravatar_url %>
+				<%= link_to current_user.email, profile_path(current_user.id) %>
           		<%= link_to('登出', destroy_user_session_path, :method => :delete) %> |
           		<%= link_to('修改個人資料', edit_registration_path(:user)) %>
       		<% else %>
           		<%= link_to('註冊', new_registration_path(:user)) %> |
           		<%= link_to('登入', new_session_path(:user)) %>
       		<% end %>
+      		<%if current_user && current_user.admin?%>
+				<%= link_to "ADMIN", admin_topics_path,:class => "btn btn-default" %>
+			<% end %>
+      		<hr>
+
+      		<script>(function(d, s, id) {
+				  var js, fjs = d.getElementsByTagName(s)[0];
+				  if (d.getElementById(id)) return;
+				  js = d.createElement(s); js.id = id;
+				  js.src = "//connect.facebook.net/zh_TW/sdk.js#xfbml=1&version=v2.4&appId=1473500716238271";
+				  fjs.parentNode.insertBefore(js, fjs);
+				}(document, 'script', 'facebook-jssdk'));</script>
+			<div class="fb-like"></div>
 
 			<%= yield %>
       		<hr>
 
-			<%if current_user && current_user.admin?%>
-				<%= link_to "ADMIN", admin_topics_path %>
-			<% end %>
+			
 			
 
 		</div>

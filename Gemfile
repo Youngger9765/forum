@@ -1,5 +1,7 @@
 source 'https://rubygems.org'
 
+gem 'gravtastic'
+
 gem 'devise'
 
 gem "kaminari"

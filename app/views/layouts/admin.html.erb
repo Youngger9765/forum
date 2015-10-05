@@ -30,11 +30,12 @@
           		<%= link_to('註冊', new_registration_path(:user)) %> |
           		<%= link_to('登入', new_session_path(:user)) %>
       		<% end %>
+      		<%if current_user && current_user.admin?%>
+				<%= link_to "ADMIN", admin_topics_path, :class => "btn btn-default" %>
+			<% end %>
 			<%= yield %>
 
-			<%if current_user && current_user.admin?%>
-				<%= link_to "ADMIN", admin_topics_path %>
-			<% end %>
+			
 
 
 		</div>

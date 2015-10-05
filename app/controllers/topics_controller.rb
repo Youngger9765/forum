@@ -82,6 +82,7 @@ class TopicsController < ApplicationController
 	end	
 
 	def show
+		raise
 		@topic = Topic.find(params[:id])
 
 		if current_user == nil
