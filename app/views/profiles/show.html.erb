@@ -1,0 +1,129 @@
+<h1>Profile show</h1>
+
+<table class="table">
+	<tr>
+		<td>Name</td>
+		<td>Email</td>
+		<td>Created Tuime</td>
+		<td>ID</td>
+		<td>Role</td>
+	</tr>
+	
+	<tr> 
+		<td><%= "XX_name" %></td>
+		<td><%= @profile.email%></td> 
+		<td><%= @profile.created_at%></td> 
+		<td><%= @profile.id%></td> 
+		<td><%= @profile.role%></td>
+	</tr>
+
+</table>
+
+<h3>About Me</h3>
+<p>write something about you</p>
+<hr>
+
+<h3>Blog</h3>
+<p>Do you have a blog?</p>
+<hr>
+
+<h3>topics</h3>
+	
+<table class="table">
+	<tr>
+		<td>
+		
+		<%= link_to "Title", profile_path( :order => "name")%></td>
+		<td>Category</td>
+		<td>User</td>
+		<td><%= link_to "Post Time", profile_path( :order => "created_at")%></td>
+		<td> <%= link_to "Feedbacks", profile_path( :order => "feedbacks_count")%></td>
+		<td>Feedbackers</td>
+		<td>Control</td>
+		<td>Status</td>
+	</tr>
+	<% @topics.each do |t| %>
+		
+		<tr>
+		
+			<td>
+			<%= check_box_tag "ids[]", t.id, false %>
+			<%= link_to t.name, topic_path(t)%>
+				
+			</td>
+			<td>
+				<%= t.category_name%>
+			</td>
+			<td>
+				<%= link_to t.user_email, profile_path(t.user.id) %>
+
+			</td>
+			<td>
+				<%= t.created_at%>
+			</td>
+			<td>
+				<%= t.feedbacks.size %> pieces of feedback
+			</td>
+			<td>
+				<ul>
+					<% t.feedbacks.each do |fe| %>
+						<li><%= fe.user_email %></li>
+					<%end%>
+				</ul>
+			</td>
+			<td>
+
+				<%if current_user == nil%> 
+				<%#沒登入者時，這段須在前面，or current_user.email 會出現 error%>
+				<p> <%= "XXX" %></p>
+				<%elsif t.user_email==current_user.email || current_user.role == "admin"%>
+				<%= link_to "Edit", topics_path(:topic_id => t ), :class => "btn btn-default"%>
+				<%= link_to "Delete", topic_path(t), :method => :delete, :data => {:confirm => "sure?"},:class => "btn btn-danger" %>
+				<%end%>
+			</td>
+			<td><%=t.status%></td>
+		</tr>
+	<%end%>
+</table>
+
+<hr>
+
+<h3>Feedbacks</h3>
+
+<table class="table">
+<tr>
+	<td>Feebacker</td>
+	<td>Feedback Time</td>
+	<td>Content</td>
+	<td>Control</td>
+	<td>Status</td>
+</tr>
+
+
+<% @feedbacks.each do |fe| %>
+<tr>
+	<td><%= fe.user_email%></td>
+	<td><%= fe.created_at%></td>
+	<td><%= fe.content%></td>
+	<td>
+
+
+
+	<% if current_user == nil %>
+		<%="XXX"%>
+	<% elsif fe.user_email == current_user.email  || current_user.role == "admin"%>
+		<%= link_to "Edit", edit_topic_feedback_path(fe.topic_id,fe),:class => "btn btn-default"%>
+		<%= link_to "Delete", topic_feedback_path(fe.topic_id,fe), :method => :delete, :data => {:confirm => "Are you sure?"},:class => "btn btn-danger"%>
+	<%end%>
+	</td>
+	<td>
+		<%= fe.status %>
+	</td>
+</tr>
+
+<%end%>
+
+</table>
+
+
+<p><%= link_to "Topics Index", topics_path%></p>

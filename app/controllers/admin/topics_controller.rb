@@ -10,6 +10,7 @@ class Admin::TopicsController < ApplicationController
 
 	def index
 		@topics = Topic.all
+		@user = User.all
 	end
 
 	protected

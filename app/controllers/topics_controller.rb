@@ -19,22 +19,30 @@ class TopicsController < ApplicationController
   		#決定使用者權限提供觀看授權
   		if current_user == nil
   			@topics = Topic.where(:status => "published")
-  			@topics = @topics.order("id DESC").page(params[:page]).per(5)
-
+  			if params[:order] 
+	  			sort_by = (params[:order]+" DESC")
+	  			@topics = @topics.order(sort_by).page(params[:page]).per(5) 
+  			else
+  				@topics = @topics.order("id DESC").page(params[:page]).per(5)
+  			end
   		elsif current_user && current_user.role != "admin"
   			@topics = Topic.where("user_id = ? OR status = ?", current_user.id , "published")
-			@topics = @topics.order("id DESC").page(params[:page]).per(5)
- 					
+			
+  			if params[:order] 
+	  			sort_by = (params[:order]+" DESC")
+	  			@topics = @topics.order(sort_by).page(params[:page]).per(5) 
+  			else
+				@topics = @topics.order("id DESC").page(params[:page]).per(5)
+ 			end	
   		elsif current_user.role == "admin"
-  			@topics == 	Topic.order("id DESC").page(params[:page]).per(5)
-
+  			if params[:order]
+				@topics = Topic.order(sort_by).page(params[:page]).per(5) 
+	  		else
+	  			@topics == 	Topic.order("id DESC").page(params[:page]).per(5)
+  			end
   		end
 
-  		if params[:order] 
-  			sort_by = (params[:order]+" DESC")
-  			@topics = Topic.order(sort_by).page(params[:page]).per(5) 
-  		end
-
+ 
 	end
 
 	def new
@@ -86,7 +94,8 @@ class TopicsController < ApplicationController
 	def destroy
 		@topic.destroy
 		flash[:alert] = "DELETE DONE!"
-		redirect_to topics_path
+		#redirect_to topics_path
+		redirect_to :back
 	end
 
 	def aboutsite

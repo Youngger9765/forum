@@ -1,0 +1,11 @@
+class AddStatusToProfiles < ActiveRecord::Migration
+  def change
+  	add_column :profiles, :status, :string
+  	add_column :profiles, :user_id, :integer
+
+  	add_index :profiles, :status
+  	add_index :profiles, :user_id
+  end
+
+
+end

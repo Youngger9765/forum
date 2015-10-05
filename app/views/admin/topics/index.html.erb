@@ -1,4 +1,22 @@
 
+<table class="table">
+	<tr>
+		<td>Email</td>
+		<td>Created Tuime</td>
+		<td>ID</td>
+		<td>Role</td>
+	</tr>
+
+	<% @user.each do |u| %>
+	<tr> 
+		<td><%= u.email%></td> 
+		<td><%= u.created_at%></td> 
+		<td><%= u.id%></td> 
+		<td><%= u.role%></td>
+	<%end%>
+	</tr>
+
+</table>
 
 <p>	
 <%= link_to "Topics Index", topics_path%>

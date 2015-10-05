@@ -40,6 +40,7 @@ class TopicFeedbacksController < ApplicationController
 		if @feedback.update (feedback_params)
 			flash[:notice] = "Feedback Update!"
 			redirect_to topic_path(@topic)
+			
 		else
 			flash[:alert] = "Feedback fail"
 			render "edit"
@@ -49,7 +50,8 @@ class TopicFeedbacksController < ApplicationController
 	def destroy
 		@feedback = Feedback.find(params[:id])
 		@feedback.destroy
-		redirect_to topic_path(@topic)
+		#redirect_to topic_path(@topic)
+		redirect_to :back
 	end
 
 

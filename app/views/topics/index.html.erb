@@ -1,10 +1,19 @@
 <h1>翻轉立院 <%= link_to "Index", topics_path, :class => "btn btn-default"%> <%= link_to "About", aboutsite_topics_path,:class => "btn btn-default"%></h1> 
 
-
+<%#= link_to "profile index", profiles_path%>
 
 <ul>
 	<li><%= link_to "Sort By Default", topics_path %></li>
 </ul>
+
+<table class="table">
+	<tr>
+		<td>
+			<%= link_to "分類列表", topics_path( :Category => "1")%>
+		</td>
+	
+	</tr>
+</table>
 
 <%=form_tag bulk_update_topics_path do %> <form>
 
@@ -14,7 +23,7 @@
 		
 		<%= link_to "Title", topics_path( :order => "name")%></td>
 		<td>Category</td>
-		<td>User</td>
+		<td>Poster</td>
 		<td><%= link_to "Post Time", topics_path( :order => "created_at")%></td>
 		<td> <%= link_to "Feedbacks", topics_path( :order => "feedbacks_count")%></td>
 		<td>Feedbackers</td>
@@ -35,7 +44,7 @@
 				<%= t.category_name%>
 			</td>
 			<td>
-				<%= t.user_email%>
+				<%= link_to t.user_email, profile_path(t.user.id) %>
 
 			</td>
 			<td>
