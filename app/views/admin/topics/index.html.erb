@@ -54,9 +54,7 @@
 					<%=f.label :category_id, "Category"%>
 					<%=f.select :category_id, Category.all.map{ |x| [x.name, x.id]}, :class => "form-control"%>
 					<%= f.submit "Submit",:class => "btn btn-primary" %>
-				</div>
-
-			    
+				</div>		    
 			<% end %>
 		</td> 		
 	<%end%>

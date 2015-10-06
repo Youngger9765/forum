@@ -19,7 +19,19 @@ class ProfilesController < ApplicationController
 	end
 
 	def show
-		@profile = User.find(params[:id])
+
+		@user = User.find(params[:id])
+
+		@profile =Profile.find_by_user_id(params[:id])
+
+		if @profile == nil
+			@profile = Profile.new
+		else
+			#@profile 進入edit mode
+
+		end
+
+
 
 		if current_user == nil
 			@topics = Topic.where(:user_id => params[:id], :status => "published")
@@ -36,5 +48,31 @@ class ProfilesController < ApplicationController
 		end
 
 	end
+
+	def create
+		@profile = Profile.new(profile_params)
+		@profile.user_id = current_user.id
+
+		@profile.save
+		redirect_to admin_topics_path
+		flash[:notice] = "Create Success"
+	end	
+
+	def update
+		
+		@profile =Profile.find_by(params[:id])
+		@profile.update(profile_params)
+		flash[:notice] = "Update Success!"
+		redirect_to profile_path(current_user.id)
+				
+	end
+
+	private
+
+	def profile_params
+		params.require(:profile).permit(:description)
+
+	end
+
 
 end

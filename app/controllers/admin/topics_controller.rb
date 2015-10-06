@@ -38,7 +38,7 @@ class Admin::TopicsController < ApplicationController
 	end
 
 	def topic_params
-		params.require(:topic).permit(:category_id)
+		params.require(:topic).permit(:category_id, :description)
 	end
 
 
