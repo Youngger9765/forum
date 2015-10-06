@@ -10,8 +10,8 @@
 <div class="container">
 	<div class="row">
 		<div class="col-md-12">
-			<h1>翻轉立院 Fliply</h1>
-			<h1>This is Admin Page</h1>
+			<h1>翻轉立院 Fliply - Admin Page </h1>
+	
 			<%if flash[:notice].present? %>
 				<div class="alert alert-success" role="alert">
 					<%= flash[:notice] %>
@@ -37,10 +37,9 @@
       		<%if current_user && current_user.admin?%>
 				<%= link_to "ADMIN", admin_topics_path, :class => "btn btn-default" %>
 			<% end %>
+			<%= link_to "Topics Index", topics_path, :class => "btn btn-default"%>
+
 			<%= yield %>
-
-			
-
 
 		</div>
 

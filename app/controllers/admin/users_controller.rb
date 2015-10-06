@@ -17,7 +17,7 @@ class Admin::UsersController < ApplicationController
 	end
 
 	def update
-		User.find(params[:id]).update(:role => params[:user][:role])
+		User.find(params[:id]).update(user_params)
 		flash[:notice] = "Update Success!"
 		redirect_to admin_topics_path		
 	end
@@ -29,6 +29,10 @@ class Admin::UsersController < ApplicationController
 			#flash[:alert] ="No Permission!"
 			raise ActiveRecord::RecordNotFound
 		end
+	end
+
+	def user_params
+		params.require(:user).permit(:role)
 	end
 		
 

@@ -20,14 +20,11 @@ class Admin::TopicsController < ApplicationController
 	end
 
 	def update
-		Topic.find(params[:id]).update(:category_id => params[:topic][:category_id])
+		Topic.find(params[:id]).update(topic_params)
 		flash[:notice] = "Update Success!"
 		redirect_to admin_topics_path		
 	end
 
-	def edit
-
-	end
 	
 
 	protected
