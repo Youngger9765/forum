@@ -23,6 +23,7 @@
 		<%= link_to "Title", topics_path( :order => "name")%></td>
 		<td>Category</td>
 		<td>Poster</td>
+		<td>Tags</td>
 		<td><%= link_to "Post Time", topics_path( :order => "created_at")%></td>
 		<td> <%= link_to "Feedbacks", topics_path( :order => "feedbacks_count")%></td>
 		<td>Feedbackers</td>
@@ -46,7 +47,11 @@
 			<td>
 				<%= image_tag t.user.gravatar_url %>
 				<%= link_to t.user_email, profile_path(t.user.id) %>
-
+			</td>
+			<td>
+				<% t.tags.each do |t|%>
+					<%= link_to t.name, topics_path( :tag_id => t )%>
+				<%end%>
 			</td>
 			<td>
 				<%= t.created_at%>

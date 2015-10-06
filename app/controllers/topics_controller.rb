@@ -14,15 +14,18 @@ class TopicsController < ApplicationController
 			@topic = Topic.new
   		end
 
-  		
-
   		#決定使用者權限提供觀看授權
   		if current_user == nil
   			@topics = Topic.where(:status => "published")
   			if params[:order] 
 	  			sort_by = (params[:order]+" DESC")
 	  			@topics = @topics.order(sort_by).page(params[:page]).per(5) 
-  				
+  			
+	  		elsif params[:tag_id]
+	  			@topics = @topics.where(:tag_id => params[:tag_id])
+	  			sort_by = (params[:tag_id]+" DESC")
+  				@topics = @topics.order(sort_by).page(params[:page]).per(5)
+
   			elsif params[:category]
   				@topics = @topics.where(:category_id => params[:category])
   				sort_by = (params[:category]+" DESC")
@@ -34,18 +37,19 @@ class TopicsController < ApplicationController
   		elsif current_user && current_user.role != "admin"
   			@topics = Topic.where("user_id = ? OR status = ?", current_user.id , "published")
 			
-  			if params[:order] || params[:category]
+  			if params[:order] || params[:category] || params[:tag_id]
 	  				if 	params[:order]
 	  					sort_by = (params[:order]+" DESC")
-
 	  				elsif params[:category]
-
 	  					@topics = @topics.where(:category_id => params[:category])
 	  					sort_by = (params[:category]+" DESC")
+	  				elsif params[:tag_id]	  					
+	  					@topics = Tag.find(params[:tag_id]).topics
+	  					@topics = @topics.where("user_id = ? OR status = ?", current_user.id , "published")			
+	  					sort_by = (params[:tag_id]+" DESC")
 	  				end	
-
 	  			@topics = @topics.order(sort_by).page(params[:page]).per(5) 
-  			
+
   			else
 				@topics = @topics.order("id DESC").page(params[:page]).per(5)
  			end	
@@ -53,13 +57,18 @@ class TopicsController < ApplicationController
   		elsif current_user.role == "admin"
   			if params[:order]
   				sort_by = (params[:order]+" DESC")
-				@topics = Topic.order(sort_by).page(params[:page]).per(5) 
+				@topics = @topics.order(sort_by).page(params[:page]).per(5) 
+	  		
 	  		elsif params[:category]
 	  			@topics = @topics.where(:category_id => params[:category])
 	  			sort_by = (params[:category]+" DESC")
 	  			@topics = @topics.order(sort_by).page(params[:page]).per(5)
+	  		
+	  		elsif params[:tag_id]
+	  			@topics = @topics.where(:tag_id => params[:tag_id])
+	  			sort_by = (params[:tag_id]+" DESC")
+  				@topics = @topics.order(sort_by).page(params[:page]).per(5)
 	  		else
-	  			@topics == 	Topic.order("id DESC").page(params[:page]).per(5)
   			end
   		end
 
@@ -146,7 +155,7 @@ class TopicsController < ApplicationController
 	private
 
 	def topic_params
-		params.require(:topic).permit(:name, :content, :category_id, :status)
+		params.require(:topic).permit(:name, :content, :category_id, :status, :tag_list)
 	end
 
 	def topic_params_id
