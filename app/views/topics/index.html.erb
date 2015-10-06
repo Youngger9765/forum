@@ -1,8 +1,11 @@
-<h1> <%= link_to "Index", topics_path, :class => "btn btn-default"%> <%= link_to "About", aboutsite_topics_path,:class => "btn btn-default"%></h1> 
-
-<%#= link_to "profile index", profiles_path%>
-
-
+<table class="table">
+	<tr>
+		<td>分頁列表
+		<%= link_to "Index", topics_path, :class => "btn btn-default"%>
+		<%= link_to "About", aboutsite_topics_path,:class => "btn btn-default"%>
+		</td>
+	</tr>
+</table>
 
 <table class="table">
 	<tr>
@@ -10,7 +13,7 @@
 			<% Category.all.each do |c|%>
 			<%= link_to c.name, topics_path( :category => c.id), :class => "btn btn-primary"%>
 			<%end%>
-			<%= link_to "Default", topics_path,:class => "btn btn-primary" %>
+			<%= link_to "All", topics_path,:class => "btn btn-primary" %>
 		</td>
 
 	
@@ -69,7 +72,10 @@
 				<%#沒登入者時，這段須在前面，or current_user.email 會出現 error%>
 				<p> <%= "XXX" %></p>
 				<%elsif t.user_email==current_user.email || current_user.role == "admin"%>
-				<%= link_to "Edit", topics_path(:topic_id => t ), :class => "btn btn-default"%>
+				
+				<%= link_to "Edit", topics_path(:topic_id => t ), :class => "btn btn-default"%>	
+				<%# 僅改變url, 取值及更新由下面的form for 執行%>
+				
 				<%= link_to "Delete", topic_path(t), :method => :delete, :data => {:confirm => "sure?"},:class => "btn btn-danger" %>
 				<%end%>
 			</td>
@@ -85,7 +91,7 @@
 
 
 <%#將edit new 放到首頁%>
-<%= link_to "New Topic", topics_path,:class => "btn btn-primary"%>
+<%= link_to "新文章", topics_path,:class => "btn btn-primary"%>
 
 <%
   if params[:topic_id]
@@ -99,7 +105,7 @@
 
 	<%= render :partial => 'form', :locals => { :t => t} %>
 
-    <%= t.submit "Submit",:class => "btn btn-primary" %>
+    <%= t.submit "送出",:class => "btn btn-primary" %>
 
 <% end %>
 

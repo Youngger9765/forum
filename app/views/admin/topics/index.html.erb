@@ -2,21 +2,34 @@
 <table class="table">
 	<tr>
 		<td>Email</td>
-		<td>Created Time</td>
+		<td>Registered Time</td>
+		<td>Topics</td>
+		<td>Feedbacks</td>
 		<td>ID</td>
 		<td>Role</td>
 	</tr>
 
-	<% @user.each do |u| %>
+	<% @users.each do |u| %>
 	<tr> 
-		<td><%= u.email%></td> 
-		<td><%= u.created_at%></td> 
-		<td><%= u.id%></td> 
-		<td><%= u.role%></td>
+		<td><%= link_to u.email, profile_path(u.id) %></td> 
+		<td><%= u.created_at %></td> 
+		<td><%= u.topics.size %></td>
+		<td><%= u.feedbacks.size %></td>
+		<td><%= u.id %></td> 
+		<td>
+			<%= form_for [:admin, u], :class => "form" do |u|%>
+
+				<div class="form-group">
+					<%=u.select :role, [["admin","admin"],["normal","normal"]], :class => "form-control"%>
+					<%=u.submit "Update", :class => "btn btn-primary"%>
+				</div>
+			<%end%>
+		</td>
 	<%end%>
 	</tr>
 
 </table>
+
 
 <table class="table">
 <h2>未分類文章</h2>
@@ -48,7 +61,6 @@
 		</td> 		
 	<%end%>
 	</tr>
-
 </table>
 
 

@@ -10,7 +10,7 @@ class Admin::TopicsController < ApplicationController
 
 	def index
 		@topics = Topic.where(:category => nil)
-		@user = User.all
+		@users = User.all
 
 		if params[:id]
   			@topic = Topic.find( params[:id] )
@@ -24,6 +24,10 @@ class Admin::TopicsController < ApplicationController
 		flash[:notice] = "Update Success!"
 		redirect_to admin_topics_path		
 	end
+
+	def edit
+
+	end
 	
 
 	protected
@@ -34,6 +38,10 @@ class Admin::TopicsController < ApplicationController
 			raise ActiveRecord::RecordNotFound
 		end
 		
+	end
+
+	def topic_params
+		params.require(:topic).permit(:category_id)
 	end
 
 
