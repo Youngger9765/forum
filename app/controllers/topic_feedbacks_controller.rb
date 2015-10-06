@@ -22,8 +22,11 @@ class TopicFeedbacksController < ApplicationController
 		@feedback.user = current_user
 
 		if @feedback.save
+			@topic.latest_feedback_time = @feedback.created_at
+			@topic.save
 			redirect_to topic_path(@topic)
 			flash[:notice] = "Create Success"
+			
 		elsif 
 			flash[:alert] = "Create Fail"
 			render "new"

@@ -26,6 +26,7 @@
 		<td><%= link_to "Post Time", topics_path( :order => "created_at")%></td>
 		<td> <%= link_to "Feedbacks", topics_path( :order => "feedbacks_count")%></td>
 		<td>Feedbackers</td>
+		<td><%= link_to "Latest Feedback", topics_path( :order => "latest_feedback_time") %></td>
 		<td>Control</td>
 		<td>Status</td>
 	</tr>
@@ -60,6 +61,7 @@
 					<%end%>
 				</ul>
 			</td>
+			<td><%= t.latest_feedback_time%></td>
 			<td>
 
 				<%if current_user == nil%> 

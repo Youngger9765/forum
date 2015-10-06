@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151006014226) do
+ActiveRecord::Schema.define(version: 20151006092833) do
 
   create_table "categories", force: :cascade do |t|
     t.string   "name"
@@ -50,12 +50,13 @@ ActiveRecord::Schema.define(version: 20151006014226) do
     t.text     "content"
     t.boolean  "is_public"
     t.integer  "capacity"
-    t.datetime "created_at",                  null: false
-    t.datetime "updated_at",                  null: false
+    t.datetime "created_at",                       null: false
+    t.datetime "updated_at",                       null: false
     t.string   "status"
     t.integer  "user_id"
     t.integer  "category_id"
-    t.integer  "feedbacks_count", default: 0
+    t.integer  "feedbacks_count",      default: 0
+    t.datetime "latest_feedback_time"
   end
 
   add_index "topics", ["category_id"], name: "index_topics_on_category_id"
