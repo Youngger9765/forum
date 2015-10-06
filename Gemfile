@@ -1,5 +1,7 @@
 source 'https://rubygems.org'
 
+gem 'omniauth-facebook'
+
 gem 'gravtastic'
 
 gem 'devise'

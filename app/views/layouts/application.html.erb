@@ -10,6 +10,7 @@
 <div class="container">
 	<div class="row">
 		<div class="col-md-12">
+			<h1>翻轉立院 Fliply</h1>
 			<%if flash[:notice].present? %>
 				<div class="alert alert-success" role="alert">
 					<%= flash[:notice] %>
@@ -20,30 +21,25 @@
 					<%= flash[:alert] %>
 				</div>
 			<%end%>
-			<div id="fb-root"></div>
+			
 
 			<% if current_user %>
 				Hello! <%= image_tag current_user.gravatar_url %>
 				<%= link_to current_user.email, profile_path(current_user.id) %>
-          		<%= link_to('登出', destroy_user_session_path, :method => :delete) %> |
-          		<%= link_to('修改個人資料', edit_registration_path(:user)) %>
+
+          		<%= link_to'登出', destroy_user_session_path, :method => :delete, :class => "btn btn-default" %> |
+          		<%= link_to'修改登入資料', edit_registration_path(:user), :class => "btn btn-default" %>
       		<% else %>
-          		<%= link_to('註冊', new_registration_path(:user)) %> |
-          		<%= link_to('登入', new_session_path(:user)) %>
+      			<%= link_to "Facebook登入", user_omniauth_authorize_path(:facebook), :class => "btn btn-primary" %> |
+          		<%= link_to'註冊', new_registration_path(:user), :class => "btn btn-default" %> |
+          		<%= link_to'Email 登入', new_session_path(:user), :class => "btn btn-default" %>
       		<% end %>
       		<%if current_user && current_user.admin?%>
 				<%= link_to "ADMIN", admin_topics_path,:class => "btn btn-default" %>
 			<% end %>
-      		<hr>
 
-      		<script>(function(d, s, id) {
-				  var js, fjs = d.getElementsByTagName(s)[0];
-				  if (d.getElementById(id)) return;
-				  js = d.createElement(s); js.id = id;
-				  js.src = "//connect.facebook.net/zh_TW/sdk.js#xfbml=1&version=v2.4&appId=1473500716238271";
-				  fjs.parentNode.insertBefore(js, fjs);
-				}(document, 'script', 'facebook-jssdk'));</script>
-			<div class="fb-like"></div>
+
+      		
 
 			<%= yield %>
       		<hr>
@@ -56,9 +52,18 @@
 	</div>
 
 </div>
-
-
-
+<div id="fb-root" >
+	<div class="container">
+	      		<script>(function(d, s, id) {
+					  var js, fjs = d.getElementsByTagName(s)[0];
+					  if (d.getElementById(id)) return;
+					  js = d.createElement(s); js.id = id;
+					  js.src = "//connect.facebook.net/zh_TW/sdk.js#xfbml=1&version=v2.4&appId=1473500716238271";
+					  fjs.parentNode.insertBefore(js, fjs);
+					}(document, 'script', 'facebook-jssdk'));</script>
+				<div class="fb-like"></div>
+	</div>
+</div>
 
 
 
