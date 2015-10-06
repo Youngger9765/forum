@@ -37,7 +37,9 @@ class TopicsController < ApplicationController
   			if params[:order] || params[:category]
 	  				if 	params[:order]
 	  					sort_by = (params[:order]+" DESC")
+
 	  				elsif params[:category]
+
 	  					@topics = @topics.where(:category_id => params[:category])
 	  					sort_by = (params[:category]+" DESC")
 	  				end	
@@ -50,6 +52,7 @@ class TopicsController < ApplicationController
 
   		elsif current_user.role == "admin"
   			if params[:order]
+  				sort_by = (params[:order]+" DESC")
 				@topics = Topic.order(sort_by).page(params[:page]).per(5) 
 	  		elsif params[:category]
 	  			@topics = @topics.where(:category_id => params[:category])
@@ -82,7 +85,7 @@ class TopicsController < ApplicationController
 	end	
 
 	def show
-		raise
+
 		@topic = Topic.find(params[:id])
 
 		if current_user == nil
