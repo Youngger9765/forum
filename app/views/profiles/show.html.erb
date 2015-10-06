@@ -45,8 +45,9 @@
 	<%end%>
 
 <%elsif%>
-	
-	<%= Profile.find_by_user_id(params[:id]).description %>
+	<% if Profile.find_by_user_id(params[:id]) != nil%>
+		<%= Profile.find_by_user_id(params[:id]).description %>
+	<%end%>
 <%end%>
 
 <hr>

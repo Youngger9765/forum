@@ -54,17 +54,17 @@ class ProfilesController < ApplicationController
 		@profile.user_id = current_user.id
 
 		@profile.save
-		redirect_to admin_topics_path
+		redirect_to profile_path(current_user.id)
 		flash[:notice] = "Create Success"
 	end	
 
 	def update
 		
-		@profile =Profile.find_by(params[:id])
+		@profile =Profile.find_by_user_id(current_user.id)
 		@profile.update(profile_params)
 		flash[:notice] = "Update Success!"
 		redirect_to profile_path(current_user.id)
-				
+
 	end
 
 	private
