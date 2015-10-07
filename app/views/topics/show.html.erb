@@ -5,6 +5,11 @@
 <li>Category:<%= @topic.category_name %></li>
 <li>Author:<%= @topic.user_email%></li>
 <li>Status:<%= @topic.status%></li>
+<li>Tags: 
+	<% @topic.tags.each do |ta|%>
+		<%= ta.name %>,
+	<%end%>
+</li>
 <li>Content:<%= @topic.content %></li> 
 
 </ul>
