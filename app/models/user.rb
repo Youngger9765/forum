@@ -10,11 +10,16 @@ class User < ActiveRecord::Base
   gravtastic
   
   has_many :topics
+  has_many :feedbacks
 
   has_many :favoritings
   has_many :favorite_topics, :through => :favoritings, :source => :topic
-  has_many :feedbacks
-
+  
+  has_many :likings
+  has_many :like_topics, :through => :likings, :source => :topic
+  
+  has_many :subscribings
+  has_many :Subscribe_topics, :through => :subscribings , :source => :topic
 
   has_one :profile
 

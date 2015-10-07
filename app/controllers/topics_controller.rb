@@ -121,12 +121,22 @@ class TopicsController < ApplicationController
       redirect_to topic_path(params[:id])
     else
     flash[:alert] = "已收藏了喔"
-    redirect_to :back
+    redirect_to topic_path(params[:id])
     end
   end
 
-
-
+  def like
+    if current_user && !current_user.likings.find_by(:topic_id => params[:id])
+      @like = current_user.likings.new
+      @like.topic_id = params[:id]
+      @like.save
+      flash[:notice] = "You like it"
+      redirect_to topic_path(params[:id])
+    else
+    flash[:alert] = "Already like"
+    redirect_to topic_path(params[:id])
+    end
+  end
 
 	private
 

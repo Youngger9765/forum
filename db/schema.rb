@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151007102815) do
+ActiveRecord::Schema.define(version: 20151007140114) do
 
   create_table "categories", force: :cascade do |t|
     t.string   "name"
@@ -46,6 +46,16 @@ ActiveRecord::Schema.define(version: 20151007102815) do
   add_index "feedbacks", ["topic_id"], name: "index_feedbacks_on_topic_id"
   add_index "feedbacks", ["user_id"], name: "index_feedbacks_on_user_id"
 
+  create_table "likings", force: :cascade do |t|
+    t.integer  "topic_id"
+    t.integer  "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_index "likings", ["topic_id"], name: "index_likings_on_topic_id"
+  add_index "likings", ["user_id"], name: "index_likings_on_user_id"
+
   create_table "profiles", force: :cascade do |t|
     t.string   "name"
     t.text     "description"
@@ -58,6 +68,16 @@ ActiveRecord::Schema.define(version: 20151007102815) do
 
   add_index "profiles", ["status"], name: "index_profiles_on_status"
   add_index "profiles", ["user_id"], name: "index_profiles_on_user_id"
+
+  create_table "subscribings", force: :cascade do |t|
+    t.integer  "topic_id"
+    t.integer  "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_index "subscribings", ["topic_id"], name: "index_subscribings_on_topic_id"
+  add_index "subscribings", ["user_id"], name: "index_subscribings_on_user_id"
 
   create_table "taggings", force: :cascade do |t|
     t.integer  "topic_id"
@@ -92,6 +112,8 @@ ActiveRecord::Schema.define(version: 20151007102815) do
     t.integer  "logo_file_size"
     t.datetime "logo_updated_at"
     t.integer  "favoritings_count",    default: 0
+    t.integer  "likings_count",        default: 0
+    t.integer  "Subscribings_count",   default: 0
   end
 
   add_index "topics", ["category_id"], name: "index_topics_on_category_id"
@@ -116,6 +138,8 @@ ActiveRecord::Schema.define(version: 20151007102815) do
     t.string   "first_name"
     t.string   "last_name"
     t.integer  "favoritings_count",      default: 0
+    t.integer  "likings_count",          default: 0
+    t.integer  "Subscribings_count",     default: 0
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true
