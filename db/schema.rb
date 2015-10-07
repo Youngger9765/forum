@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151006134820) do
+ActiveRecord::Schema.define(version: 20151007040643) do
 
   create_table "categories", force: :cascade do |t|
     t.string   "name"
@@ -73,6 +73,10 @@ ActiveRecord::Schema.define(version: 20151006134820) do
     t.integer  "category_id"
     t.integer  "feedbacks_count",      default: 0
     t.datetime "latest_feedback_time"
+    t.string   "logo_file_name"
+    t.string   "logo_content_type"
+    t.integer  "logo_file_size"
+    t.datetime "logo_updated_at"
   end
 
   add_index "topics", ["category_id"], name: "index_topics_on_category_id"

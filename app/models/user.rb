@@ -6,7 +6,6 @@ class User < ActiveRecord::Base
          :recoverable, :rememberable, :trackable, :validatable,
           :omniauthable, :omniauth_providers => [:facebook]
 
-
   include Gravtastic
   gravtastic
 
@@ -49,5 +48,5 @@ class User < ActiveRecord::Base
     user.save!
     return user
   end
-  
+
 end

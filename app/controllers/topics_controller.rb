@@ -112,6 +112,10 @@ class TopicsController < ApplicationController
 	end
 
 	def update
+		if params[:destroy_logo] == "1"
+      		@topic.logo = nil
+	    end
+
 		if @topic.update(topic_params)
 			flash[:notice] = "Update Success!"
 			redirect_to topics_path
@@ -155,7 +159,7 @@ class TopicsController < ApplicationController
 	private
 
 	def topic_params
-		params.require(:topic).permit(:name, :content, :category_id, :status, :tag_list)
+		params.require(:topic).permit(:name, :content, :category_id, :status, :tag_list, :logo)
 	end
 
 	def topic_params_id

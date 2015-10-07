@@ -23,6 +23,15 @@
 	<%=t.text_area :content, :class => "form-control"%>
 </div>
 
+<div class="form-group">
+	<%=t.label :logo, "LOGO"%>
+	<%=t.file_field :logo%>
+
+	<% if @topic.logo.exists? %>
+      <%= check_box_tag "destroy_logo", "1" %> 刪除檔案
+    <% end %>
+
+</div>
 
 
 

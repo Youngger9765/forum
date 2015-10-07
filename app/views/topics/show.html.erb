@@ -1,8 +1,6 @@
 <h1>Title:<%= @topic.name %></h1>
 
 
-
-
 <ul>
 <li>Category:<%= @topic.category_name %></li>
 <li>Author:<%= @topic.user_email%></li>
@@ -10,6 +8,10 @@
 <li>Content:<%= @topic.content %></li> 
 
 </ul>
+
+<% if @topic.logo.exists? %>
+	<%= link_to image_tag(@topic.logo.url(:thumb)),@topic.logo.url%>
+<%end%>
 
 
 <h3>Feedbacks:</h3>
@@ -21,7 +23,6 @@
 	<td>Control</td>
 	<td>Status</td>
 </tr>
-
 
 
 
