@@ -1,9 +1,22 @@
-<h1>Title:<%= @topic.name %></h1>
+<div id="fb-root" >
+	<div class="container">
+	      		<script>(function(d, s, id) {
+					  var js, fjs = d.getElementsByTagName(s)[0];
+					  if (d.getElementById(id)) return;
+					  js = d.createElement(s); js.id = id;
+					  js.src = "//connect.facebook.net/zh_TW/sdk.js#xfbml=1&version=v2.4&appId=1473500716238271";
+					  fjs.parentNode.insertBefore(js, fjs);
+					}(document, 'script', 'facebook-jssdk'));</script>
+				<div class="fb-like"></div>
+	</div>
+</div>
 
+
+<h1>Title:<%= @topic.name %></h1>
 
 <ul>
 <li>Category:<%= @topic.category_name %></li>
-<li>Author:<%= @topic.user_email%></li>
+<li>Author:<%= @topic.user.email%></li>
 <li>Status:<%= @topic.status%></li>
 <li>Tags: 
 	<% @topic.tags.each do |ta|%>
@@ -32,8 +45,11 @@
 <% @feedbacks.each do |fe| %>
 <tr>
 	<td>
-		<%= image_tag current_user.gravatar_url, :size =>"30x30" %>
-		<%= fe.user_email%>
+		<%= link_to profile_path(fe.user) do %>
+			 <%= image_tag current_user.gravatar_url, :size =>"30x30" %>
+			 <%= fe.user.username %>
+		<% end %>
+
 	</td>
 	<td>
 		<%= fe.content%>
@@ -44,12 +60,10 @@
 	<td><%= fe.created_at%></td>
 
 	<td>
-	<% if current_user == nil %>
-		<%="XXX"%>
-	<% elsif fe.user_email == current_user.email  || current_user.role == "admin"%>
+	<% if current_user && ( fe.user == current_user || current_user.admin? ) %>
 		<%= link_to "Edit", edit_topic_feedback_path(@topic,fe),:class => "btn btn-default"%>
 		<%= link_to "Delete", topic_feedback_path(@topic,fe), :method => :delete, :data => {:confirm => "Are you sure?"},:class => "btn btn-danger"%>
-	<%end%>
+	<% end %>
 	</td>
 	<td>
 		<%= fe.status %>
@@ -65,7 +79,7 @@
 
 </table>
 
-<%= form_for @feedback, :url => topic_feedbacks_path(@topic), :class =>"form" do |fe|%>
+<%= form_for [@topic, @feedback], :class =>"form" do |fe|%>
 	
 	<div class="form-group">
 		<%=fe.label :content, "Content"%>

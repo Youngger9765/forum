@@ -13,10 +13,8 @@ class Admin::TopicsController < ApplicationController
 		@users = User.all
 
 		if params[:id]
-  			@topic = Topic.find( params[:id] )
-  		else
-			
-  		end
+  		@topic = Topic.find( params[:id] )
+  	end
 	end
 
 	def update
@@ -25,17 +23,7 @@ class Admin::TopicsController < ApplicationController
 		redirect_to admin_topics_path		
 	end
 
-	
-
 	protected
-
-	def check_admin
-		unless current_user.admin?
-			#flash[:alert] ="No Permission!"
-			raise ActiveRecord::RecordNotFound
-		end
-		
-	end
 
 	def topic_params
 		params.require(:topic).permit(:category_id, :description)

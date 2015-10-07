@@ -1,4 +1,4 @@
-<%= link_to "About", aboutsite_topics_path,:class => "btn btn-default"%>
+<%= link_to "About", about_path,:class => "btn btn-default"%>
 
 
 <table class="table">
@@ -46,7 +46,7 @@
 			</td>
 			<td>
 				<%= image_tag t.user.gravatar_url, :size => "30x30" %>
-				<%= link_to t.user_email, profile_path(t.user.id) %>
+				<%= link_to t.user.username, profile_path(t.user) %>
 			</td>
 			<td>
 				<% t.tags.each do |t|%>
@@ -54,31 +54,26 @@
 				<%end%>
 			</td>
 			<td>
-				<%= t.created_at%>
+				<%= t.created_at %>
 			</td>
 			<td>
 				<%= t.feedbacks.size %> pieces of feedback
 			</td>
 			<td>
 				<ul>
-					<% t.feedbacks.each do |fe| %>
-						<li><%= fe.user_email %></li>
+					<% t.comment_users.each do |u| %>
+						<li><%= link_to u.username, profile_path(u) %></li>
 					<%end%>
 				</ul>
 			</td>
 			<td><%= t.latest_feedback_time%></td>
 			<td>
-
-				<%if current_user == nil%> 
-				<%#沒登入者時，這段須在前面，or current_user.email 會出現 error%>
-				<p> <%= "XXX" %></p>
-				<%elsif t.user_email==current_user.email || current_user.role == "admin"%>
-				
-				<%= link_to "Edit", topics_path(:topic_id => t ), :class => "btn btn-default"%>	
+				<% if current_user && ( t.user == current_user || current_user.admin? ) %>
+					<%= link_to "Edit", topics_path(:topic_id => t ), :class => "btn btn-default"%>	
 				<%# 僅改變url, 取值及更新由下面的form for 執行%>
 				
-				<%= link_to "Delete", topic_path(t), :method => :delete, :data => {:confirm => "sure?"},:class => "btn btn-danger" %>
-				<%end%>
+					<%= link_to "Delete", topic_path(t), :method => :delete, :data => {:confirm => "sure?"},:class => "btn btn-danger" %>
+				<% end %>
 			</td>
 			<td><%=t.status%></td>
 		</tr>

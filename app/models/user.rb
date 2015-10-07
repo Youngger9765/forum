@@ -14,6 +14,10 @@ class User < ActiveRecord::Base
 
   has_one :profile
 
+  def username
+    self.email.split("@").first
+  end
+
   def admin?
   	self.role == "admin"
   end

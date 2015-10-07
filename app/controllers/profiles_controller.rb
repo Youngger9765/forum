@@ -8,71 +8,50 @@ class ProfilesController < ApplicationController
 			raise ActiveRecord::RecordNotFound
 		end
 
-		if current_user && current_user.role !="admin"
+		if current_user && current_user.admin?
+			@profile = User.all			
+		elsif current_user
 			@profile = User.where(:id => current_user.id)
-		elsif current_user.role == "admin"
-			@profile =User.all
-		else
-
-		end
-								
+		end								
 	end
 
 	def show
-
 		@user = User.find(params[:id])
+		@profile = @user.profile || Profile.new
 
-		@profile =Profile.find_by_user_id(params[:id])
+		@topics = @user.topics
+		@feedbacks = @user.feedbacks
 
-		if @profile == nil
-			@profile = Profile.new
+		if current_user && ( @user == current_user || current_user.admin? )
+
 		else
-			#@profile 進入edit mode
-
+			@topics = @topics.where(:status => "published")
+			@feedbacks = @feedbacks.where(:status => "published")
 		end
-
-
-
-		if current_user == nil
-			@topics = Topic.where(:user_id => params[:id], :status => "published")
-			@feedbacks = Feedback.where(:status => "published" )
-		
-		elsif current_user.id.to_s != params[:id] && current_user.role != "admin"
-			@topics = Topic.where(:user_id => params[:id], :status => "published")
-			@feedbacks = Feedback.where(:user_id => params[:id], :status => "published")
-		
-		elsif current_user.role	== "admin" || current_user.id.to_s == params[:id]
-			@topics = Topic.where(:user_id => params[:id])
-			@feedbacks = Feedback.where(:user_id => params[:id])
-			
-		end
-
 	end
 
 	def create
 		@profile = Profile.new(profile_params)
-		@profile.user_id = current_user.id
+		@profile.user = current_user
 
 		@profile.save
-		redirect_to profile_path(current_user.id)
+
 		flash[:notice] = "Create Success"
+		redirect_to profile_path(current_user)
 	end	
 
 	def update
-		
-		@profile =Profile.find_by_user_id(current_user.id)
+		@profile = current_user.profile		
 		@profile.update(profile_params)
-		flash[:notice] = "Update Success!"
-		redirect_to profile_path(current_user.id)
 
+		flash[:notice] = "Update Success!"
+		redirect_to profile_path(current_user)
 	end
 
 	private
 
 	def profile_params
 		params.require(:profile).permit(:description)
-
 	end
-
 
 end

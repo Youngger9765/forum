@@ -2,14 +2,14 @@ Rails.application.routes.draw do
 
   devise_for :users, :controllers => { :omniauth_callbacks => "users/omniauth_callbacks" }
 
+  get "/about" => "topics#about"
+
   resources :profiles
   
-  resources :topics  do #RESTful
+  resources :topics  do
     resources :feedbacks, :controller =>"topic_feedbacks"
   
     collection do
-      get :aboutsite
-      
       post :bulk_update
     end
 

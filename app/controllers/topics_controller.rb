@@ -1,78 +1,40 @@
 class TopicsController < ApplicationController
 
-	before_action :authenticate_user!, :except => [:index,:show, :aboutsite]
+	before_action :authenticate_user!, :except => [:index,:show, :about]
 
-	before_action :topic_params_id, :only =>[ :update, :destroy]
+	before_action :set_topic, :only =>[ :update, :destroy]
 
 	def index
-
-		@topics = Topic.order("id DESC").page(params[:page]).per(5)
 		#如果出現 tipic_id 代表針對個案id處理edit
 		if params[:topic_id]
-  			@topic = Topic.find( params[:topic_id] )
-  		else
+		  @topic = Topic.find( params[:topic_id] )
+		else
 			@topic = Topic.new
-  		end
+		end
 
-  		#決定使用者權限提供觀看授權
-  		if current_user == nil
-  			@topics = Topic.where(:status => "published")
-  			if params[:order] 
-	  			sort_by = (params[:order]+" DESC")
-	  			@topics = @topics.order(sort_by).page(params[:page]).per(5) 
-  			
-	  		elsif params[:tag_id]
-	  			@topics = @topics.where(:tag_id => params[:tag_id])
-	  			sort_by = (params[:tag_id]+" DESC")
-  				@topics = @topics.order(sort_by).page(params[:page]).per(5)
+    if params[:tag_id]
+      @topics = Tag.find(params[:tag_id]).topics
+    elsif params[:category]
+      @topics = @topics.where(:category_id => params[:category])
+    else
+      @topics = Topic.all
+    end
 
-  			elsif params[:category]
-  				@topics = @topics.where(:category_id => params[:category])
-  				sort_by = (params[:category]+" DESC")
-  				@topics = @topics.order(sort_by).page(params[:page]).per(5)
-  			else
-  				@topics = @topics.order("id DESC").page(params[:page]).per(5)
-  			end
+    if current_user && current_user.admin?
+      @topics = @topics.all
+    elsif current_user
+      @topics = @topics.where("user_id = ? OR status = ?", current_user.id , "published")    
+    else
+      @topics = @topics.where(:status => "published")
+    end
 
-  		elsif current_user && current_user.role != "admin"
-  			@topics = Topic.where("user_id = ? OR status = ?", current_user.id , "published")
-			
-  			if params[:order] || params[:category] || params[:tag_id]
-	  				if 	params[:order]
-	  					sort_by = (params[:order]+" DESC")
-	  				elsif params[:category]
-	  					@topics = @topics.where(:category_id => params[:category])
-	  					sort_by = (params[:category]+" DESC")
-	  				elsif params[:tag_id]	  					
-	  					@topics = Tag.find(params[:tag_id]).topics
-	  					@topics = @topics.where("user_id = ? OR status = ?", current_user.id , "published")			
-	  					sort_by = (params[:tag_id]+" DESC")
-	  				end	
-	  			@topics = @topics.order(sort_by).page(params[:page]).per(5) 
-
-  			else
-				@topics = @topics.order("id DESC").page(params[:page]).per(5)
- 			end	
-
-  		elsif current_user.role == "admin"
-  			if params[:order]
-  				sort_by = (params[:order]+" DESC")
-				@topics = @topics.order(sort_by).page(params[:page]).per(5) 
-	  		
-	  		elsif params[:category]
-	  			@topics = @topics.where(:category_id => params[:category])
-	  			sort_by = (params[:category]+" DESC")
-	  			@topics = @topics.order(sort_by).page(params[:page]).per(5)
-	  		
-	  		elsif params[:tag_id]
-	  			@topics = @topics.where(:tag_id => params[:tag_id])
-	  			sort_by = (params[:tag_id]+" DESC")
-  				@topics = @topics.order(sort_by).page(params[:page]).per(5)
-	  		else
-  			end
-  		end
-
- 
+    if ["name", "created_at", "feedbacks_count", "latest_feedback_time"].include?( params[:order] )
+		  sort_by = (params[:order]+" DESC")	  		
+    else
+      sort_by = "id DESC"
+    end
+  		
+		@topics = @topics.order(sort_by).page(params[:page]).per(5) 
 	end
 
 	def new
@@ -94,19 +56,15 @@ class TopicsController < ApplicationController
 	end	
 
 	def show
-
 		@topic = Topic.find(params[:id])
 
-		if current_user == nil
-			@feedbacks = @topic.feedbacks.where(:status => "published" )
-		
-		elsif current_user && current_user.role != "admin"
-			@feedbacks = @topic.feedbacks.where("user_id = ? OR status =?", current_user.id,"published")
-		
-		else current_user.role	== "admin"
-			@feedbacks = @topic.feedbacks.all
-			
-		end
+    if current_user && current_user.admin?
+      @feedbacks = @topic.feedbacks.all
+    elsif current_user
+      @feedbacks = @topic.feedbacks.where("user_id = ? OR status =?", current_user.id,"published")
+    else
+      @feedbacks = @topic.feedbacks.where(:status => "published" )
+    end
 
 		@feedback = Feedback.new
 	end
@@ -128,12 +86,12 @@ class TopicsController < ApplicationController
 
 	def destroy
 		@topic.destroy
+
 		flash[:alert] = "DELETE DONE!"
-		#redirect_to topics_path
 		redirect_to :back
 	end
 
-	def aboutsite
+	def about
 		@user = User.all
 		@topics =Topic.all
 		@feedbacks = Feedback.all
@@ -152,9 +110,7 @@ class TopicsController < ApplicationController
 		end
 
 		redirect_to :back
-
 	end
-
 
 	private
 
@@ -162,19 +118,12 @@ class TopicsController < ApplicationController
 		params.require(:topic).permit(:name, :content, :category_id, :status, :tag_list, :logo)
 	end
 
-	def topic_params_id
-		if current_user == nil ||current_user.admin? 
-			@topic = Topic.find(params[:id])
-		
+	def set_topic
+		if current_user.admin? 
+			@topic = Topic.find(params[:id])		
 		else
-			if current_user.topics.find(params[:id])
-				@topic = current_user.topics.find(params[:id])
-			else
-				flash[:alert] = "You don't have the permission!"
-				redirect_to	
-			end		
-		end
+			@topic = current_user.topics.find(params[:id])
+		end	
 	end
-
 
 end

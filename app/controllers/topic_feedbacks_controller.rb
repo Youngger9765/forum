@@ -1,12 +1,10 @@
 class TopicFeedbacksController < ApplicationController
 
 	before_action :authenticate_user!
-
-	before_action :set_topic_id
+	before_action :set_topic
 
 	def index
 		@feedbacks = @topic.feedbacks
-
 	end
 
 	def show
@@ -24,9 +22,9 @@ class TopicFeedbacksController < ApplicationController
 		if @feedback.save
 			@topic.latest_feedback_time = @feedback.created_at
 			@topic.save
-			redirect_to topic_path(@topic)
+
 			flash[:notice] = "Create Success"
-			
+			redirect_to topic_path(@topic)
 		elsif 
 			flash[:alert] = "Create Fail"
 			render "new"
@@ -41,13 +39,12 @@ class TopicFeedbacksController < ApplicationController
 		@feedback = @topic.feedbacks.find(params[:id])
 
 		if params[:destroy_logo] == "1"
-            @feedback.logo = nil
-        end
+      @feedback.logo = nil
+    end
 
 		if @feedback.update (feedback_params)
 			flash[:notice] = "Feedback Update!"
 			redirect_to topic_path(@topic)
-			
 		else
 			flash[:alert] = "Feedback fail"
 			render "edit"
@@ -55,17 +52,16 @@ class TopicFeedbacksController < ApplicationController
 	end
 
 	def destroy
+		# TODO: authorization, check out topics_controller#set_topic
 		@feedback = Feedback.find(params[:id])
 		@feedback.destroy
-		#redirect_to topic_path(@topic)
+
 		redirect_to :back
 	end
 
-
-
 	private
 
-	def set_topic_id
+	def set_topic
 		@topic= Topic.find(params[:topic_id] )
 	end
 

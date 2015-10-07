@@ -10,7 +10,7 @@
 	</tr>
 	
 	<tr> 
-		<td><%= "XX_name" %></td>
+		<td><%= @user.first_name %> <%= @user.last_name %></td>
 		<td><%= @user.email%></td> 
 		<td><%= @user.created_at%></td> 
 		<td><%= @user.id%></td> 
@@ -22,20 +22,9 @@
 <h3>About Me</h3>
 
 
-<% if params[:id] == current_user.id.to_s || current_user.role == "admin"%>
+<% if current_user && ( @user == current_user || current_user.admin? ) %>
 
-
-
-	<%
-		if @profile.id == nil
-			url = profiles_path
-		else
-			#@profile 進入edit mode
-			url = profile_path(@profile)
-		end
-	%>
-
-	<%= form_for @profile, :url => url, :class =>"form" do |p|%>
+	<%= form_for @profile, :class =>"form" do |p|%>
 
 		<div class="form-group">
 			<%=p.label :description, "description"%>
@@ -44,20 +33,11 @@
 		</div>
 	<%end%>
 
-<%elsif%>
-	<% if Profile.find_by_user_id(params[:id]) != nil%>
-		<%= Profile.find_by_user_id(params[:id]).description %>
-	<%end%>
+<% else %>
+	<%= @profile.description %>
 <%end%>
 
 <hr>
-
-<h3>Blog</h3>
-<td>
-	<tr>
-
-	</tr>
-</td>
 
 <hr>
 
@@ -89,7 +69,7 @@
 				<%= t.category_name%>
 			</td>
 			<td>
-				<%= link_to t.user_email, profile_path(t.user.id) %>
+				<%= link_to t.user.email, profile_path(t.user.id) %>
 
 			</td>
 			<td>
@@ -101,16 +81,16 @@
 			<td>
 				<ul>
 					<% t.feedbacks.each do |fe| %>
-						<li><%= fe.user_email %></li>
+						<li><%= fe.user.email %></li>
 					<%end%>
 				</ul>
 			</td>
 			<td>
-
+				<!-- TODO: FIXME -->
 				<%if current_user == nil%> 
 				<%#沒登入者時，這段須在前面，or current_user.email 會出現 error%>
 				<p> <%= "XXX" %></p>
-				<%elsif t.user_email==current_user.email || current_user.role == "admin"%>
+				<%elsif t.user.email==current_user.email || current_user.role == "admin"%>
 				<%= link_to "Edit", topics_path(:topic_id => t ), :class => "btn btn-default"%>
 				<%= link_to "Delete", topic_path(t), :method => :delete, :data => {:confirm => "sure?"},:class => "btn btn-danger" %>
 				<%end%>
@@ -134,29 +114,26 @@
 </tr>
 
 
-<% @feedbacks.each do |fe| %>
-<tr>
-	<td><%= fe.user_email%></td>
-	<td><%= fe.created_at%></td>
-	<td><%= fe.content%></td>
-	<td>
+	<% @feedbacks.each do |fe| %>
+		<tr>
+			<td><%= fe.user.email%></td>
+			<td><%= fe.created_at%></td>
+			<td><%= fe.content%></td>
+			<td>
 
-
-
-	<% if current_user == nil %>
-		<%="XXX"%>
-	<% elsif fe.user_email == current_user.email  || current_user.role == "admin"%>
-		<%= link_to "Edit", edit_topic_feedback_path(fe.topic_id,fe),:class => "btn btn-default"%>
-		<%= link_to "Delete", topic_feedback_path(fe.topic_id,fe), :method => :delete, :data => {:confirm => "Are you sure?"},:class => "btn btn-danger"%>
+		  <!-- TODO: FIXME -->
+			<% if current_user == nil %>
+				<%="XXX"%>
+			<% elsif fe.user.email == current_user.email  || current_user.role == "admin"%>
+				<%= link_to "Edit", edit_topic_feedback_path(fe.topic_id,fe),:class => "btn btn-default"%>
+				<%= link_to "Delete", topic_feedback_path(fe.topic_id,fe), :method => :delete, :data => {:confirm => "Are you sure?"},:class => "btn btn-danger"%>
+			<%end%>
+			</td>
+			<td>
+				<%= fe.status %>
+			</td>
+		</tr>
 	<%end%>
-	</td>
-	<td>
-		<%= fe.status %>
-	</td>
-</tr>
-
-<%end%>
-
 </table>
 
 

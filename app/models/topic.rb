@@ -9,8 +9,15 @@ class Topic < ActiveRecord::Base
 	has_many :tags, :through => :taggings
 
 	delegate :name, :to => :category, :prefix => true, :allow_nil => true
-	delegate :email, :to => :user, :prefix => true, :allow_nil => true
+	# delegate :email, :to => :user, :prefix => true, :allow_nil => true
 
+	has_attached_file :logo, styles: { medium: "300x300>", thumb: "100x100>" }, default_url: "/images/:style/missing.png"
+    validates_attachment_content_type :logo, content_type: /\Aimage\/.*\Z/      
+
+  def comment_users
+  	feedbacks.map{ |fe| fe.user }.uniq
+  end
+  
 	def tag_list
    		self.tags.map{ |t| t.name }.join(",")
   	end
@@ -27,9 +34,5 @@ class Topic < ActiveRecord::Base
 	    end
 
 	end
-
-	has_attached_file :logo, styles: { medium: "300x300>", thumb: "100x100>" }, default_url: "/images/:style/missing.png"
-    validates_attachment_content_type :logo, content_type: /\Aimage\/.*\Z/      
-
 
 end

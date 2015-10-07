@@ -60,7 +60,7 @@ ActiveRecord::Schema.define(version: 20151007060245) do
   add_index "taggings", ["topic_id"], name: "index_taggings_on_topic_id"
 
   create_table "tags", force: :cascade do |t|
-    t.string   "name"
+    t.string   "name" # index
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

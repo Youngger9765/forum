@@ -24,16 +24,8 @@ class Admin::UsersController < ApplicationController
 
 	private
 
-	def check_admin
-		unless current_user.admin?
-			#flash[:alert] ="No Permission!"
-			raise ActiveRecord::RecordNotFound
-		end
-	end
-
 	def user_params
 		params.require(:user).permit(:role)
 	end
 		
-
 end
