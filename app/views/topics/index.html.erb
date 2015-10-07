@@ -45,7 +45,7 @@
 				<%= t.category_name%>
 			</td>
 			<td>
-				<%= image_tag t.user.gravatar_url %>
+				<%= image_tag t.user.gravatar_url, :size => "30x30" %>
 				<%= link_to t.user_email, profile_path(t.user.id) %>
 			</td>
 			<td>
