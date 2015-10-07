@@ -1,28 +1,4 @@
-<div id="fb-root" >
-	<div class="container">
-	      		<script>(function(d, s, id) {
-					  var js, fjs = d.getElementsByTagName(s)[0];
-					  if (d.getElementById(id)) return;
-					  js = d.createElement(s); js.id = id;
-					  js.src = "//connect.facebook.net/zh_TW/sdk.js#xfbml=1&version=v2.4&appId=1473500716238271";
-					  fjs.parentNode.insertBefore(js, fjs);
-					}(document, 'script', 'facebook-jssdk'));</script>
-				<div class="fb-like"></div>
-	</div>
-</div>
 
-<div id="fb-root">
-<div class="container">
-	<script>(function(d, s, id) {
-	  var js, fjs = d.getElementsByTagName(s)[0];
-	  if (d.getElementById(id)) return;
-	  js = d.createElement(s); js.id = id;
-	  js.src = "//connect.facebook.net/zh_TW/sdk.js#xfbml=1&version=v2.4&appId=141000662921301";
-	  fjs.parentNode.insertBefore(js, fjs);
-	}(document, 'script', 'facebook-jssdk'));</script>
-	<div class="fb-share-button" data-href="https://developers.facebook.com/docs/plugins/" data-layout="button_count"></div>
-</div>
-</div>
 
 <h1>
 	Title:<%= @topic.name %> 
@@ -31,6 +7,41 @@
 		<%= link_to "訂閱", subscribe_topic_path(@topic),:class => "btn btn-primary"%>
 	
 </h1>
+
+<div id="fb-root" >
+	<div class="container">
+	    <script>
+	    	(function(d, s, id) {
+				  var js, fjs = d.getElementsByTagName(s)[0];
+				  if (d.getElementById(id)) return;
+				  js = d.createElement(s); js.id = id;
+				  js.src = "//connect.facebook.net/zh_TW/sdk.js#xfbml=1&version=v2.4&appId=1473500716238271";
+				  fjs.parentNode.insertBefore(js, fjs);
+				}(document, 'script', 'facebook-jssdk'));
+			</script>
+
+			<div class="fb-like"></div>
+			
+			<script>
+				(function(d, s, id) {
+				  var js, fjs = d.getElementsByTagName(s)[0];
+				  if (d.getElementById(id)) return;
+				  js = d.createElement(s); js.id = id;
+				  js.src = "//connect.facebook.net/zh_TW/sdk.js#xfbml=1&version=v2.4&appId=141000662921301";
+				  fjs.parentNode.insertBefore(js, fjs);
+				}(document, 'script', 'facebook-jssdk'));
+			</script>
+
+			<div class="fb-share-button" data-href="https://developers.facebook.com/docs/plugins/" data-layout="button_count"></div>
+
+	</div>
+</div>
+
+<div id="fb-root">
+<div class="container">
+	
+</div>
+</div>
 
 <ul>
 <li>
@@ -69,14 +80,12 @@
 	</tr>
 
 	<% @feedbacks.each do |fe| %>
-		<tr>
+		<tr id="feedback-<%= fe.id %>">
 			<td>
-
 				<%= link_to profile_path(fe.user) do %>
 					 <%= image_tag fe.user.gravatar_url, :size =>"30x30" %>
 					 <%= fe.user.username %>
 				<% end %>
-
 			</td>
 			<td>
 				<%= fe.content%>
@@ -89,7 +98,7 @@
 			<td>
 			<% if current_user && ( fe.user == current_user || current_user.admin? ) %>
 				<%= link_to "Edit", edit_topic_feedback_path(@topic,fe),:class => "btn btn-default"%>
-				<%= link_to "Delete", topic_feedback_path(@topic,fe), :method => :delete, :data => {:confirm => "Are you sure?"},:class => "btn btn-danger"%>
+				<%= link_to "Delete", topic_feedback_path(@topic,fe), :remote => true, :method => :delete, :class => "btn btn-danger"%>
 			<% end %>
 			</td>
 			<td>

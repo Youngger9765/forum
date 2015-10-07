@@ -34,7 +34,7 @@
 
 	<% @topics.each do |t| %>
 		
-		<tr>
+		<tr id="topic-<%= t.id %>">
 		
 			<td>
 			<%= check_box_tag "ids[]", t.id, false %>

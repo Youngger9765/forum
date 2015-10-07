@@ -56,7 +56,7 @@ class TopicFeedbacksController < ApplicationController
 		@feedback = Feedback.find(params[:id])
 		@feedback.destroy
 
-		redirect_to :back
+
 	end
 
 	private
