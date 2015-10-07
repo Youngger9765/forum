@@ -40,6 +40,10 @@ class TopicFeedbacksController < ApplicationController
 	def update
 		@feedback = @topic.feedbacks.find(params[:id])
 
+		if params[:destroy_logo] == "1"
+            @feedback.logo = nil
+        end
+
 		if @feedback.update (feedback_params)
 			flash[:notice] = "Feedback Update!"
 			redirect_to topic_path(@topic)
@@ -66,7 +70,7 @@ class TopicFeedbacksController < ApplicationController
 	end
 
 	def feedback_params
-		params.require(:feedback).permit(:content, :status)
+		params.require(:feedback).permit(:content, :status, :logo)
 	end
 
 
