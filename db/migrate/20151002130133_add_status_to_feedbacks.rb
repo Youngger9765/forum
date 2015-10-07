@@ -1,5 +1,5 @@
 class AddStatusToFeedbacks < ActiveRecord::Migration
   def change
-  	add_column :feedbacks, :status, :string, :defult => "draft"
+  	add_column :feedbacks, :status, :string, :default => "draft"
   end
 end

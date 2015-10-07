@@ -12,11 +12,19 @@
 </div>
 
 
-<h1>Title:<%= @topic.name %></h1>
+<h1>
+	Title:<%= @topic.name %> 
+	
+		<%= link_to "收藏", favorite_topic_path(@topic),:class => "btn btn-primary"%>
+	
+</h1>
 
 <ul>
 <li>Category:<%= @topic.category_name %></li>
-<li>Author:<%= @topic.user.email%></li>
+<li>Author:
+	<%= image_tag @topic.user.gravatar_url, :size => "30x30" %>
+	<%= link_to @topic.user.username, profile_path(@topic.user)%>
+</li>
 <li>Status:<%= @topic.status%></li>
 <li>Tags: 
 	<% @topic.tags.each do |ta|%>
@@ -34,49 +42,43 @@
 
 <h3>Feedbacks:</h3>
 <table class="table">
-<tr>
-	<td>Feedbacker</td>
-	<td>Content</td>
-	<td>Feedback Time</td>
-	<td>Control</td>
-	<td>Status</td>
-</tr>
+	<tr>
+		<td>Feedbacker</td>
+		<td>Content</td>
+		<td>Feedback Time</td>
+		<td>Control</td>
+		<td>Status</td>
+	</tr>
 
-<% @feedbacks.each do |fe| %>
-<tr>
-	<td>
-		<%= link_to profile_path(fe.user) do %>
-			 <%= image_tag current_user.gravatar_url, :size =>"30x30" %>
-			 <%= fe.user.username %>
-		<% end %>
+	<% @feedbacks.each do |fe| %>
+		<tr>
+			<td>
 
-	</td>
-	<td>
-		<%= fe.content%>
-		<% if fe.logo.exists? %>
-			<%= link_to image_tag(fe.logo.url(:thumb)),fe.logo.url%>
-		<%end%>
-	</td>
-	<td><%= fe.created_at%></td>
+				<%= link_to profile_path(fe.user) do %>
+					 <%= image_tag fe.user.gravatar_url, :size =>"30x30" %>
+					 <%= fe.user.username %>
+				<% end %>
 
-	<td>
-	<% if current_user && ( fe.user == current_user || current_user.admin? ) %>
-		<%= link_to "Edit", edit_topic_feedback_path(@topic,fe),:class => "btn btn-default"%>
-		<%= link_to "Delete", topic_feedback_path(@topic,fe), :method => :delete, :data => {:confirm => "Are you sure?"},:class => "btn btn-danger"%>
-	<% end %>
-	</td>
-	<td>
-		<%= fe.status %>
-	</td>
+			</td>
+			<td>
+				<%= fe.content%>
+				<% if fe.logo.exists? %>
+					<%= link_to image_tag(fe.logo.url(:thumb)),fe.logo.url%>
+				<%end%>
+			</td>
+			<td><%= fe.created_at%></td>
 
-</tr>
-
-
-
-<%end%>
-
-
-
+			<td>
+			<% if current_user && ( fe.user == current_user || current_user.admin? ) %>
+				<%= link_to "Edit", edit_topic_feedback_path(@topic,fe),:class => "btn btn-default"%>
+				<%= link_to "Delete", topic_feedback_path(@topic,fe), :method => :delete, :data => {:confirm => "Are you sure?"},:class => "btn btn-danger"%>
+			<% end %>
+			</td>
+			<td>
+				<%= fe.status %>
+			</td>
+		</tr>
+	<%end%>
 </table>
 
 <%= form_for [@topic, @feedback], :class =>"form" do |fe|%>
@@ -84,11 +86,6 @@
 	<div class="form-group">
 		<%=fe.label :content, "Content"%>
 		<%=fe.text_area :content, :class => "form-control"%>
-	</div>
-
-	<div class="form-group">
-		<%=fe.label :status, "Status"%>
-		<%=fe.select :status,[["Published","published"],["Draft","draft"]]%>
 	</div>
 
 	<div class="form-group">

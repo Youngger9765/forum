@@ -8,6 +8,9 @@ class Topic < ActiveRecord::Base
 	has_many :taggings
 	has_many :tags, :through => :taggings
 
+  has_many :favoritings
+  has_many :favorite_users, :through => :favoritings , :source => :user
+
 	delegate :name, :to => :category, :prefix => true, :allow_nil => true
 	# delegate :email, :to => :user, :prefix => true, :allow_nil => true
 

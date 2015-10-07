@@ -112,6 +112,22 @@ class TopicsController < ApplicationController
 		redirect_to :back
 	end
 
+  def favorite
+    if current_user && !current_user.favoritings.find_by(:topic_id => params[:id])
+      @favo = current_user.favoritings.new
+      @favo.topic_id = params[:id]
+      @favo.save
+      flash[:notice] = "收藏成功"
+      redirect_to topic_path(params[:id])
+    else
+    flash[:alert] = "已收藏了喔"
+    redirect_to :back
+    end
+  end
+
+
+
+
 	private
 
 	def topic_params

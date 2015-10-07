@@ -13,6 +13,10 @@ Rails.application.routes.draw do
       post :bulk_update
     end
 
+    member do
+      get :favorite
+    end  
+
   end
 
   namespace :admin do

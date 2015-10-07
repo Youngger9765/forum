@@ -8,9 +8,13 @@ class User < ActiveRecord::Base
 
   include Gravtastic
   gravtastic
+  
+  has_many :topics
 
-  has_many :topics 
+  has_many :favoritings
+  has_many :favorite_topics, :through => :favoritings, :source => :topic
   has_many :feedbacks
+
 
   has_one :profile
 

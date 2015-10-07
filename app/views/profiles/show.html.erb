@@ -2,11 +2,14 @@
 
 <table class="table">
 	<tr>
-		<td>Name</td>
+		<td>暱稱</td>
 		<td>Email</td>
-		<td>Created Tuime</td>
+		<td>註冊時間</td>
 		<td>ID</td>
 		<td>Role</td>
+		<td>發文數量</td>	
+		<td>回覆數量</td>
+		<td>收藏數量</td>	
 	</tr>
 	
 	<tr> 
@@ -15,6 +18,16 @@
 		<td><%= @user.created_at%></td> 
 		<td><%= @user.id%></td> 
 		<td><%= @user.role%></td>
+		<td><%= @user.topics.size %></td>
+		<td><%= @user.feedbacks.size %></td>
+
+		<td>
+		<% if current_user && (current_user.id.to_s == params[:id] || current_user.admin?) %>
+			<%= @favorite_topics.size %>
+		<% elsif%>
+			<%= "你沒有權限得知" %>
+		<% end %>
+		</td>	
 	</tr>
 
 </table>
@@ -69,7 +82,7 @@
 				<%= t.category_name%>
 			</td>
 			<td>
-				<%= link_to t.user.email, profile_path(t.user.id) %>
+				<%= link_to t.user.username, profile_path(t.user.id) %>
 
 			</td>
 			<td>
@@ -113,10 +126,9 @@
 	<td>Status</td>
 </tr>
 
-
 	<% @feedbacks.each do |fe| %>
 		<tr>
-			<td><%= fe.user.email%></td>
+			<td><%= fe.user.username%></td>
 			<td><%= fe.created_at%></td>
 			<td><%= fe.content%></td>
 			<td>
@@ -136,5 +148,26 @@
 	<%end%>
 </table>
 
+<% if current_user && (current_user.id.to_s == params[:id] || current_user.admin?) %>
+
+<h3>My Favorite Topics </h3>
+<table class="table">
+	<tr>
+		<td>文章</td>
+		<td>作者 </td>
+		<td>內容</td>
+		<td>文章建立時間</td>
+		
+	</tr>
+		<% @favorite_topics.each do |f|%>
+			<tr>
+				<td><%= link_to f.name,topic_path(f)%></td>
+				<td><%= link_to f.user.username, profile_path(f.user) %></td>
+				<td><%= f.content%></td>
+				<td><%= f.created_at%></td>
+			</tr>
+		<%end%>
+</table>
+<% end %>
 
 <p><%= link_to "Topics Index", topics_path%></p>

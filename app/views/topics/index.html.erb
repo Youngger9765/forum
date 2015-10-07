@@ -45,8 +45,10 @@
 				<%= t.category_name%>
 			</td>
 			<td>
-				<%= image_tag t.user.gravatar_url, :size => "30x30" %>
-				<%= link_to t.user.username, profile_path(t.user) %>
+				<%= link_to profile_path(t.user) do%>
+					<%= image_tag t.user.gravatar_url, :size => "30x30" %>
+					<%= t.user.username%>
+				<% end %>
 			</td>
 			<td>
 				<% t.tags.each do |t|%>
