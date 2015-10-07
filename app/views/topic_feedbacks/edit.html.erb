@@ -12,6 +12,17 @@
 	<%=fe.select :status,[["Published","published"],["Draft","draft"]]%>
 	</div>
 
+	<div class="form-group">
+		<%=fe.label :logo, "LOGO"%>
+		<%=fe.file_field :logo%>
+		
+		<% if @feedback.logo.exists? %>
+			<%= link_to image_tag(@feedback.logo.url(:thumb)),@feedback.logo.url%>
+	      <%= check_box_tag "destroy_logo", "1" %> 刪除檔案
+	    <% end %>
+	    
+	</div>
+
 	<%=fe.submit "Update", :class => "btn btn-primary"%>
 
 <%end%>
