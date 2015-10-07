@@ -90,12 +90,12 @@
 
 <%= paginate @topics %>
 
-
+<hr>
 <%#將edit new 放到首頁%>
 <%= link_to "新文章", topics_path,:class => "btn btn-primary"%>
 
-<%
 
+<%
   if params[:topic_id]
   	#edit
     url = topic_path(@topic)
