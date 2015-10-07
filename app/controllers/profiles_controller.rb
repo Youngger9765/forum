@@ -23,9 +23,8 @@ class ProfilesController < ApplicationController
 		@feedbacks = @user.feedbacks
 
 		if current_user && ( @user == current_user || current_user.admin? )
-			
 			@favorite_topics = @user.favorite_topics
-
+			@subscribe_topics = @user.subscribe_topics
 		else
 
 			@topics = @topics.where(:status => "published")

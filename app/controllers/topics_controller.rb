@@ -130,10 +130,23 @@ class TopicsController < ApplicationController
       @like = current_user.likings.new
       @like.topic_id = params[:id]
       @like.save
-      flash[:notice] = "You like it"
+      flash[:notice] = "感謝您的喜愛"
       redirect_to topic_path(params[:id])
     else
-    flash[:alert] = "Already like"
+    flash[:alert] = "已經按讚了"
+    redirect_to topic_path(params[:id])
+    end
+  end
+
+  def subscribe
+    if current_user && !current_user.subscribings.find_by(:topic_id => params[:id])
+      @subscribe = current_user.subscribings.new
+      @subscribe.topic_id = params[:id]
+      @subscribe.save
+      flash[:notice] = "成功訂閱了"
+      redirect_to topic_path(params[:id])
+    else
+    flash[:alert] = "已經訂閱了"
     redirect_to topic_path(params[:id])
     end
   end

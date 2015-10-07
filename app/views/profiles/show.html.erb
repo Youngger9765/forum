@@ -10,6 +10,7 @@
 		<td>發文數量</td>	
 		<td>回覆數量</td>
 		<td>收藏數量</td>	
+		<td>訂閱數量</td>
 	</tr>
 	
 	<tr> 
@@ -20,14 +21,19 @@
 		<td><%= @user.role%></td>
 		<td><%= @user.topics.size %></td>
 		<td><%= @user.feedbacks.size %></td>
-
-		<td>
-		<% if current_user && (current_user.id.to_s == params[:id] || current_user.admin?) %>
-			<%= @favorite_topics.size %>
-		<% elsif%>
-			<%= "你沒有權限得知" %>
-		<% end %>
-		</td>	
+		
+		
+			<td>
+				<% if current_user && (current_user.id.to_s == params[:id] || current_user.admin?) %>
+					<%= @favorite_topics.size %>
+				<% elsif%>
+					<%= "你沒有權限得知" %>
+				<% end %>
+			</td>	
+			<td>
+				<%= @subscribe_topics.size %>
+			</td>	
+		
 	</tr>
 
 </table>
@@ -168,6 +174,27 @@
 			</tr>
 		<%end%>
 </table>
+
+<h3>Subscribed Topics </h3>
+<table class="table">
+	<tr>
+		<td>文章</td>
+		<td>作者 </td>
+		<td>內容</td>
+		<td>文章建立時間</td>
+		
+	</tr>
+		<% @subscribe_topics.each do |f|%>
+			<tr>
+				<td><%= link_to f.name,topic_path(f)%></td>
+				<td><%= link_to f.user.username, profile_path(f.user) %></td>
+				<td><%= f.content%></td>
+				<td><%= f.created_at%></td>
+			</tr>
+		<%end%>
+</table>
+
+
 <% end %>
 
 <p><%= link_to "Topics Index", topics_path%></p>

@@ -19,7 +19,7 @@ class User < ActiveRecord::Base
   has_many :like_topics, :through => :likings, :source => :topic
   
   has_many :subscribings
-  has_many :Subscribe_topics, :through => :subscribings , :source => :topic
+  has_many :subscribe_topics, :through => :subscribings , :source => :topic
 
   has_one :profile
 

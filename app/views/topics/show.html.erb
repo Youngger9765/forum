@@ -16,7 +16,7 @@
 	Title:<%= @topic.name %> 
 	
 		<%= link_to "收藏", favorite_topic_path(@topic),:class => "btn btn-primary"%>
-		
+		<%= link_to "訂閱", subscribe_topic_path(@topic),:class => "btn btn-primary"%>
 	
 </h1>
 
