@@ -2,4 +2,9 @@
     <span id="like_number"><%= @topic.like_users.size %>人覺得讚</span>
     <span id="like-word"><%= like_word(@topic) %></span>
   <% end %>
-  <%#raise%>
+
+<p> 誰也按讚：
+  <% @topic.like_users.each do |u|  %>
+    <%= link_to u.username, profile_path(u) %>, 
+  <% end %>
+</p>
