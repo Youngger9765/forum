@@ -34,7 +34,7 @@
 
 	<% @topics.each do |t| %>
 		
-		<tr id="topic-<%= t.id %>">
+		<tr >
 		
 			<td>
 			<%= check_box_tag "ids[]", t.id, false %>
@@ -69,12 +69,17 @@
 				</ul>
 			</td>
 			<td><%= t.latest_feedback_time%></td>
-			<td>
+			<td>	
+
+			<%# ajax partial 實作%>
+					<%= link_to "預覽", topic_path(t),:class => "btn btn-primary" , :remote => true %>
+
 				<% if current_user && ( t.user == current_user || current_user.admin? ) %>
 					<%= link_to "Edit", topics_path(:topic_id => t ), :class => "btn btn-default"%>	
 				<%# 僅改變url, 取值及更新由下面的form for 執行%>
 				
 					<%= link_to "Delete", topic_path(t), :method => :delete, :data => {:confirm => "sure?"},:class => "btn btn-danger" %>
+
 				<% end %>
 			</td>
 			<td><%=t.status%></td>
@@ -86,6 +91,8 @@
 <%end%>
 
 <%= paginate @topics %>
+
+<div id="show_area"></div>
 
 <hr>
 <%#將edit new 放到首頁%>

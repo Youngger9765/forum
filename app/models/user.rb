@@ -62,4 +62,12 @@ class User < ActiveRecord::Base
     return user
   end
 
+  def subscribe_topic?(topic)
+    self.subscribe_topics.include?(topic)
+  end
+
+  def like_topic?(topic)
+    self.like_topics.include?(topic)
+  end
+
 end

@@ -32,11 +32,11 @@ ActiveRecord::Schema.define(version: 20151007140114) do
   create_table "feedbacks", force: :cascade do |t|
     t.string   "name"
     t.integer  "topic_id"
-    t.datetime "created_at",                          null: false
-    t.datetime "updated_at",                          null: false
+    t.datetime "created_at",                              null: false
+    t.datetime "updated_at",                              null: false
     t.text     "content"
     t.integer  "user_id"
-    t.string   "status",            default: "draft"
+    t.string   "status",            default: "published"
     t.string   "logo_file_name"
     t.string   "logo_content_type"
     t.integer  "logo_file_size"

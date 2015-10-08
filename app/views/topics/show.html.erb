@@ -44,10 +44,8 @@
 </div>
 
 <ul>
-<li>
-	<%= link_to "讚", like_topic_path(@topic),:class => "btn btn-primary"%>
-	<%= @topic.like_users.size %> 人覺得讚：
-</li>
+
+
 <li>Category:<%= @topic.category_name %></li>
 <li>Author:
 	<%= image_tag @topic.user.gravatar_url, :size => "30x30" %>
@@ -60,12 +58,16 @@
 	<%end%>
 </li>
 <li>Content:<%= @topic.content %></li> 
-
 </ul>
+
 
 <% if @topic.logo.exists? %>
 	<%= link_to image_tag(@topic.logo.url(:thumb)),@topic.logo.url%>
 <%end%>
+
+
+	<%= render :partial => 'like' %>
+
 
 
 
@@ -86,6 +88,7 @@
 					 <%= image_tag fe.user.gravatar_url, :size =>"30x30" %>
 					 <%= fe.user.username %>
 				<% end %>
+
 			</td>
 			<td>
 				<%= fe.content%>

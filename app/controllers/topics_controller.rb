@@ -126,16 +126,19 @@ class TopicsController < ApplicationController
   end
 
   def like
-    if current_user && !current_user.likings.find_by(:topic_id => params[:id])
-      @like = current_user.likings.new
-      @like.topic_id = params[:id]
-      @like.save
-      flash[:notice] = "感謝您的喜愛"
-      redirect_to topic_path(params[:id])
-    else
-    flash[:alert] = "已經按讚了"
-    redirect_to topic_path(params[:id])
+
+    @topic = Topic.find(params[:id])
+    if current_user && !current_user.like_topic?(@topic)
+      current_user.like_topics << @topic      
+    elsif current_user && current_user.like_topic?(@topic)
+      current_user.like_topics.delete(@topic)  
     end
+
+    respond_to do |format|
+      format.html{ redirect_to :back}
+      format.js
+    end
+    
   end
 
   def subscribe
@@ -146,8 +149,8 @@ class TopicsController < ApplicationController
       flash[:notice] = "成功訂閱了"
       redirect_to topic_path(params[:id])
     else
-    flash[:alert] = "已經訂閱了"
-    redirect_to topic_path(params[:id])
+      flash[:alert] = "已經訂閱了"
+      redirect_to topic_path(params[:id])
     end
   end
 

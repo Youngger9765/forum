@@ -14,6 +14,9 @@ class Topic < ActiveRecord::Base
   has_many :likings
   has_many :like_users, :through => :likings , :source => :user
 
+  has_many :subscribings
+  has_many :Subscribe_users, :through => :subscribings , :source => :user
+
 	delegate :name, :to => :category, :prefix => true, :allow_nil => true
 	# delegate :email, :to => :user, :prefix => true, :allow_nil => true
 

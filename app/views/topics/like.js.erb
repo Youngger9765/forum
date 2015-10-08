@@ -1,0 +1,10 @@
+$("#like-btn").toggleClass('btn-default');
+$("#like-btn").toggleClass('btn-info');
+
+<% if current_user.like_topic?(@topic) %>
+  $("#like_number").text("你跟" + <%= @topic.like_users.size %> + "人覺得讚，")
+  $("#like-word").text("取消讚")
+<%else%>
+  $("#like_number").text(<%= @topic.like_users.size %> + "人覺得讚")
+  $("#like-word").text("按個讚吧")
+<%end%>

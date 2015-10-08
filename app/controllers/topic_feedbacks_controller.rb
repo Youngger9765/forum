@@ -52,10 +52,15 @@ class TopicFeedbacksController < ApplicationController
 	end
 
 	def destroy
+
 		# TODO: authorization, check out topics_controller#set_topic
 		@feedback = Feedback.find(params[:id])
 		@feedback.destroy
 
+    respond_to do |format|
+      format.html { redirect_to :back }
+      format.js # destroy.js.erb
+    end
 
 	end
 
