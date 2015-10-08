@@ -7,8 +7,9 @@
 		<span id="favorite-word"><%= favorite_word(@topic) %></span>
 	<% end %>
 
-		<%= link_to "訂閱", subscribe_topic_path(@topic),:class => "btn btn-primary" %>
-	
+	<%= link_to subscribe_topic_path(@topic),:class => "btn #{topic_subscribe_class(@topic)}", :id => "subscribe-btn", :remote => true do %>
+		<span id="subscribe-word"><%= subscribe_word(@topic) %></span>
+	<% end %>
 </h1>
 
 <div id="fb-root" >

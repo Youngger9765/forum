@@ -1,0 +1,8 @@
+$("#subscribe-btn").toggleClass('btn-default');
+$("#subscribe-btn").toggleClass('btn-info');
+
+<% if current_user.subscribe_topic?(@topic) %>
+  $("#subscribe-word").text("取消訂閱")
+<%else%>
+  $("#subscribe-word").text("訂閱")
+<%end%>

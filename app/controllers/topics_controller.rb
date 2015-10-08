@@ -146,17 +146,16 @@ class TopicsController < ApplicationController
 
   def subscribe
     @topic = Topic.find(params[:id])
-    if current_user && !current_user.subscribings.find_by(:topic_id => params[:id])
-      @subscribe = current_user.subscribings.new
-      @subscribe.topic_id = params[:id]
-      @subscribe.save
-      flash[:notice] = "成功訂閱了"
-      redirect_to topic_path(params[:id])
-    else
-      flash[:alert] = "已經訂閱了"
-      redirect_to topic_path(params[:id])
+    if current_user && !current_user.subscribe_topic?(@topic)
+      current_user.subscribe_topics << @topic      
+    elsif current_user && current_user.subscribe_topic?(@topic)
+      current_user.subscribe_topics.delete(@topic)  
     end
 
+    respond_to do |format|
+      format.html{ redirect_to :back}
+      format.js
+    end
 
 
   end
