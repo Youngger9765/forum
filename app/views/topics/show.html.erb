@@ -3,8 +3,11 @@
 <h1>
 	Title:<%= @topic.name %> 
 	
-		<%= link_to "收藏", favorite_topic_path(@topic),:class => "btn btn-primary"%>
-		<%= link_to "訂閱", subscribe_topic_path(@topic),:class => "btn btn-primary"%>
+	<%= link_to favorite_topic_path(@topic),:class => "btn #{topic_favorite_class(@topic)}", :id => "favorite-btn", :remote => true do %>
+		<span id="favorite-word"><%= favorite_word(@topic) %></span>
+	<% end %>
+
+		<%= link_to "訂閱", subscribe_topic_path(@topic),:class => "btn btn-primary" %>
 	
 </h1>
 

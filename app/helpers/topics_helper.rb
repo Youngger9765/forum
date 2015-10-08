@@ -15,6 +15,22 @@ module TopicsHelper
     else 
       "按個讚吧"
     end 
-      
   end
+
+  def topic_favorite_class(topic)
+    if current_user && current_user.like_topic?(topic)
+      "btn-info"
+    else
+      "btn-default"
+    end   
+  end
+
+  def favorite_word(topic)   
+    if current_user && current_user.like_topic?(topic) 
+      "取消收藏"
+    else 
+      "收藏"
+    end 
+  end
+
 end

@@ -113,20 +113,23 @@ class TopicsController < ApplicationController
 	end
 
   def favorite
-    if current_user && !current_user.favoritings.find_by(:topic_id => params[:id])
-      @favo = current_user.favoritings.new
-      @favo.topic_id = params[:id]
-      @favo.save
-      flash[:notice] = "收藏成功"
-      redirect_to topic_path(params[:id])
-    else
-    flash[:alert] = "已收藏了喔"
-    redirect_to topic_path(params[:id])
+
+    @topic = Topic.find(params[:id])
+    if current_user && !current_user.favorite_topic?(@topic)
+      current_user.favorite_topics << @topic    
+
+    elsif current_user && current_user.favorite_topic?(@topic)
+      current_user.favorite_topics.delete(@topic) 
     end
+
+    respond_to do |format|
+      format.html{ redirect_to :back}
+      format.js
+    end
+
   end
 
   def like
-
     @topic = Topic.find(params[:id])
     if current_user && !current_user.like_topic?(@topic)
       current_user.like_topics << @topic      
@@ -142,6 +145,7 @@ class TopicsController < ApplicationController
   end
 
   def subscribe
+    @topic = Topic.find(params[:id])
     if current_user && !current_user.subscribings.find_by(:topic_id => params[:id])
       @subscribe = current_user.subscribings.new
       @subscribe.topic_id = params[:id]
@@ -152,6 +156,9 @@ class TopicsController < ApplicationController
       flash[:alert] = "已經訂閱了"
       redirect_to topic_path(params[:id])
     end
+
+
+
   end
 
 	private
