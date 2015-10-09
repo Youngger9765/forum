@@ -4,7 +4,6 @@ class TopicFeedbacksController < ApplicationController
 	before_action :set_topic
 
 	def index
-		@feedbacks = @topic.feedbacks
 	end
 
 	def show
@@ -16,6 +15,7 @@ class TopicFeedbacksController < ApplicationController
 	end
 
 	def create
+		@feedbacks = @topic.feedbacks.all
 		@feedback = @topic.feedbacks.build(feedback_params)
 		@feedback.user = current_user
 
@@ -23,12 +23,12 @@ class TopicFeedbacksController < ApplicationController
 			@topic.latest_feedback_time = @feedback.created_at
 			@topic.save
 
-			flash[:notice] = "Create Success"
-			redirect_to topic_path(@topic)
-		elsif 
-			flash[:alert] = "Create Fail"
-			render "new"
+			respond_to do |format|
+      	format.html{ redirect_to :back}
+      	format.js  # create.js.erb
+    	end
 		end
+
 	end
 
 	def edit

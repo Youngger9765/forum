@@ -1,7 +1,7 @@
 
 
 <h1>
-	Title:<%= @topic.name %> 
+	Title: <%= @topic.name %> 
 	
 	<%= link_to favorite_topic_path(@topic),:class => "btn #{topic_favorite_class(@topic)}", :id => "favorite-btn", :remote => true do %>
 		<span id="favorite-word"><%= favorite_word(@topic) %></span>
@@ -50,18 +50,18 @@
 <ul>
 
 
-<li>Category:<%= @topic.category_name %></li>
+<li>Category: <%= @topic.category_name %></li>
 <li>Author:
 	<%= image_tag @topic.user.gravatar_url, :size => "30x30" %>
 	<%= link_to @topic.user.username, profile_path(@topic.user)%>
 </li>
-<li>Status:<%= @topic.status%></li>
+<li>Status: <%= @topic.status%></li>
 <li>Tags: 
 	<% @topic.tags.each do |ta|%>
 		<%= ta.name %>,
 	<%end%>
 </li>
-<li>Content:<%= @topic.content %></li> 
+<li>Content: <%= @topic.content %></li> 
 </ul>
 
 
@@ -69,62 +69,25 @@
 	<%= link_to image_tag(@topic.logo.url(:thumb)),@topic.logo.url%>
 <%end%>
 
-
 	<%= render :partial => 'like' %>
 
+<h3>Feedbacks</h3>
+<table class="table" id="feedbacks-table">
+	
+		<%= render 'topic_feedbacks/feedback' %>
 
-
-
-<h3>Feedbacks:</h3>
-<table class="table">
-	<tr>
-		<td>Feedbacker</td>
-		<td>Content</td>
-		<td>Feedback Time</td>
-		<td>Control</td>
-		<td>Status</td>
-	</tr>
-
-	<% @feedbacks.each do |fe| %>
-		<tr id="feedback-<%= fe.id %>">
-			<td>
-				<%= link_to profile_path(fe.user) do %>
-					 <%= image_tag fe.user.gravatar_url, :size =>"30x30" %>
-					 <%= fe.user.username %>
-				<% end %>
-
-			</td>
-			<td>
-				<%= fe.content%>
-				<% if fe.logo.exists? %>
-					<%= link_to image_tag(fe.logo.url(:thumb)),fe.logo.url%>
-				<%end%>
-			</td>
-			<td><%= fe.created_at%></td>
-
-			<td>
-			<% if current_user && ( fe.user == current_user || current_user.admin? ) %>
-				<%= link_to "Edit", edit_topic_feedback_path(@topic,fe),:class => "btn btn-default"%>
-				<%= link_to "Delete", topic_feedback_path(@topic,fe), :remote => true, :method => :delete, :class => "btn btn-danger"%>
-			<% end %>
-			</td>
-			<td>
-				<%= fe.status %>
-			</td>
-		</tr>
-	<%end%>
 </table>
 
-<%= form_for [@topic, @feedback], :class =>"form" do |fe|%>
+<%= form_for [@topic, @feedback], :class =>"form",:remote => true do |fe|%>
 	
 	<div class="form-group">
 		<%=fe.label :content, "Content"%>
-		<%=fe.text_area :content, :class => "form-control"%>
+		<%=fe.text_area :content, :class => "form-control", :id => "feedbacks-content-area" %>
 	</div>
 
 	<div class="form-group">
 	    <%=fe.label :logo, "LOGO"%>
-	    <%=fe.file_field :logo%>
+	    <%=fe.file_field :logo,:id => "feedbacks-logo-area"%>
 	</div>
 
 	<%=fe.submit "Create", :class => "btn btn-primary"%>
@@ -135,3 +98,9 @@
 
 <hr>
 <%= link_to "Topics Index", topics_path%>
+
+<%= content_for :head do %>
+    <%= tag(:meta, :content => @topic.name, :property => "og:title") %>
+    <%= tag(:meta, :content => "article", :property => "og:type") %>
+    <%= tag(:meta, :content => topic_url(@topic), :property => "og:url") %>
+<% end %>
