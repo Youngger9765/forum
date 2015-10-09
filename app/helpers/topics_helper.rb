@@ -1,9 +1,5 @@
 module TopicsHelper
 
-
-
-  
-  
   #Like
   def topic_like_class(topic)
     if current_user && current_user.like_topic?(topic)

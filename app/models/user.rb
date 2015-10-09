@@ -1,5 +1,5 @@
 class User < ActiveRecord::Base
-  validates_presence_of :email
+  validates_presence_of :email, :username
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable,
@@ -23,9 +23,6 @@ class User < ActiveRecord::Base
 
   has_one :profile
 
-  def username
-    self.email.split("@").first
-  end
 
   def admin?
   	self.role == "admin"

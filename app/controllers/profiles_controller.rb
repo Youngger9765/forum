@@ -1,22 +1,7 @@
 class ProfilesController < ApplicationController
 
-	def index
-
-		#只允許 admin 進入
-		unless current_user.admin?
-			#flash[:alert] ="No Permission!"
-			raise ActiveRecord::RecordNotFound
-		end
-
-		if current_user && current_user.admin?
-			@profile = User.all			
-		elsif current_user
-			@profile = User.where(:id => current_user.id)
-		end								
-	end
-
 	def show
-		@user = User.find(params[:id])
+		@user = User.find_by_username(params[:id])
 		@profile = @user.profile || Profile.new
 
 		@topics = @user.topics
@@ -30,6 +15,8 @@ class ProfilesController < ApplicationController
 			@topics = @topics.where(:status => "published")
 			@feedbacks = @feedbacks.where(:status => "published")
 		end
+
+
 	end
 
 	def create
