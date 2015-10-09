@@ -53,21 +53,28 @@ class TopicFeedbacksController < ApplicationController
 
 	def destroy
 
-		# TODO: authorization, check out topics_controller#set_topic
-		@feedback = Feedback.find(params[:id])
+		if current_user.admin?
+			@feedback = Feedback.find(params[:id])
+		else
+			@feedback = current_user.feedbacks.find(params[:id])
+		end		
 		@feedback.destroy
 
     respond_to do |format|
       format.html { redirect_to :back }
       format.js # destroy.js.erb
     end
-
 	end
+
 
 	private
 
 	def set_topic
-		@topic= Topic.find(params[:topic_id] )
+		if current_user.admin? 
+			@topic = Topic.find(params[:id])		
+		else
+			@topic = current_user.topics.find(params[:id])
+		end	
 	end
 
 	def feedback_params

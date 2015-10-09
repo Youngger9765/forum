@@ -139,13 +139,11 @@
 			<td><%= fe.content%></td>
 			<td>
 
-		  <!-- TODO: FIXME -->
-			<% if current_user == nil %>
-				<%="XXX"%>
-			<% elsif fe.user.email == current_user.email  || current_user.role == "admin"%>
+
+			<% if current_user && ( current_user == fe.user || current_user.admin?%>
 				<%= link_to "Edit", edit_topic_feedback_path(fe.topic_id,fe),:class => "btn btn-default"%>
 				<%= link_to "Delete", topic_feedback_path(fe.topic_id,fe), :method => :delete, :data => {:confirm => "Are you sure?"},:class => "btn btn-danger"%>
-			<%end%>
+			<% end %>
 			</td>
 			<td>
 				<%= fe.status %>
