@@ -25,14 +25,14 @@
 		
 		
 		<td>
-			<% if current_user && (current_user.id.to_s == params[:id] || current_user.admin?) %>
+			<% if current_user && (current_user.username== params[:id] || current_user.admin?) %>
 				<%= @user.favorite_topics.size %>
 			<% elsif%>
 				<%= "你沒有權限得知" %>
 			<% end %>
 		</td>	
 		<td>
-			<% if current_user && (current_user.id.to_s == params[:id] || current_user.admin?) %>
+			<% if current_user && (current_user.username == params[:id] || current_user.admin?) %>
 				<%= @user.subscribe_topics.size %>
 			<% elsif%>
 				<%= "你沒有權限得知" %>
@@ -70,9 +70,7 @@
 	
 <table class="table">
 	<tr>
-		<td>
-		
-		<%= link_to "Title", profile_path( :order => "name")%></td>
+		<td><%= link_to "Title", profile_path( :order => "name")%></td>
 		<td>Category</td>
 		<td>User</td>
 		<td><%= link_to "Post Time", profile_path( :order => "created_at")%></td>
@@ -85,16 +83,12 @@
 		
 		<tr>
 		
-			<td>
-			<%= check_box_tag "ids[]", t.id, false %>
-			<%= link_to t.name, topic_path(t)%>
-				
-			</td>
+			<td><%= link_to t.name, topic_path(t)%></td>
 			<td>
 				<%= t.category_name%>
 			</td>
 			<td>
-				<%= link_to t.user.username, profile_path(t.user.id) %>
+				<%= link_to t.user.username, profile_path(t.user.username) %>
 
 			</td>
 			<td>
@@ -130,6 +124,7 @@
 <h3>Feedbacks</h3>
 <table class="table">
 	<tr>
+		<td><%= link_to "Topic", profile_path( :order => "name")%></td>
 		<td>Feebacker</td>
 		<td>Feedback Time</td>
 		<td>Content</td>
@@ -138,6 +133,7 @@
 	</tr>
 	<% @feedbacks.each do |fe| %>
 		<tr>
+			<td><%= link_to fe.topic.name, topic_path(fe.topic.id)%></td>
 			<td><%= fe.user.username%></td>
 			<td><%= fe.created_at%></td>
 			<td><%= fe.content%></td>
@@ -172,7 +168,7 @@
 			<% @user.favorite_topics.each do |f|%>
 				<tr>
 					<td><%= link_to f.name,topic_path(f)%></td>
-					<td><%= link_to f.user.username, profile_path(f.user) %></td>
+					<td><%= link_to f.user.username, profile_path(:id => f.user.username) %></td>
 					<td><%= f.content%></td>
 					<td><%= f.created_at%></td>
 				</tr>
@@ -191,7 +187,7 @@
 			<% @user.subscribe_topics.each do |f|%>
 				<tr>
 					<td><%= link_to f.name,topic_path(f)%></td>
-					<td><%= link_to f.user.username, profile_path(f.user) %></td>
+					<td><%= link_to f.user.username, profile_path(f.user.username) %></td>
 					<td><%= f.content%></td>
 					<td><%= f.created_at%></td>
 				</tr>
@@ -211,7 +207,7 @@
 			<% @user.like_topics.each do |f|%>
 				<tr>
 					<td><%= link_to f.name,topic_path(f)%></td>
-					<td><%= link_to f.user.username, profile_path(f.user) %></td>
+					<td><%= link_to f.user.username, profile_path(f.user.username) %></td>
 					<td><%= f.content%></td>
 					<td><%= f.created_at%></td>
 				</tr>
