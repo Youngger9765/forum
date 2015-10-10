@@ -1,12 +1,4 @@
-<tr>
-    <td>Feedbacker</td>
-    <td>Content</td>
-    <td>Feedback Time</td>
-    <td>Control</td>
-    <td>Status</td>
-  </tr>
-
-<% @feedbacks.each do |fe| %>
+<% @topic.feedbacks.each do |fe| %>
   <tr id="feedback-<%= fe.id %>">
     <td>
       <%= link_to profile_path(fe.user) do %>
@@ -33,4 +25,3 @@
       <%= fe.status %>
     </td>
   </tr>
-<%end%>
