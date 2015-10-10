@@ -99,8 +99,8 @@
 			</td>
 			<td>
 				<ul>
-					<% t.feedbacks.each do |fe| %>
-						<li><%= fe.user.email %></li>
+					<% t.feedback_users.each do |u| %>
+						<li><%= link_to u.username, profile_path(:id => u.username ) %></li>
 					<%end%>
 				</ul>
 			</td>
@@ -138,9 +138,7 @@
 			<td><%= fe.created_at%></td>
 			<td><%= fe.content%></td>
 			<td>
-
-
-			<% if current_user && ( current_user == fe.user || current_user.admin?%>
+			<% if current_user && ( current_user == fe.user || current_user.admin?)%>
 				<%= link_to "Edit", edit_topic_feedback_path(fe.topic_id,fe),:class => "btn btn-default"%>
 				<%= link_to "Delete", topic_feedback_path(fe.topic_id,fe), :method => :delete, :data => {:confirm => "Are you sure?"},:class => "btn btn-danger"%>
 			<% end %>

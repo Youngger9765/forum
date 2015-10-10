@@ -64,8 +64,8 @@
 			</td>
 			<td>
 				<ul>
-					<% t.comment_users.each do |u| %>
-						<li><%= link_to u.username, profile_path(u) %></li>
+					<% t.feedback_users.each do |u| %>
+						<li><%= link_to u.username, profile_path(:id => u.username) %></li>
 					<%end%>
 				</ul>
 			</td>
