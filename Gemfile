@@ -1,5 +1,7 @@
 source 'https://rubygems.org'
 
+gem 'ransack'
+
 gem "paperclip", "~> 4.3"
 
 gem 'omniauth-facebook'

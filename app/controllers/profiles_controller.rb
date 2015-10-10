@@ -5,13 +5,17 @@ class ProfilesController < ApplicationController
 		@profile = @user.profile || Profile.new
 
 		@topics = @user.topics
+
+		@q = Topic.where(:user_id => @user.id).ransack(params[:q])
+    @topics = @q.result(distinct: true)
+    @topics = @topics.page(params[:page]).per(5) 
+
 		@feedbacks = @user.feedbacks
 
 		if current_user && ( @user == current_user || current_user.admin? )
 			@favorite_topics = @user.favorite_topics
 			@subscribe_topics = @user.subscribe_topics
 		else
-
 			@topics = @topics.where(:status => "published")
 			@feedbacks = @feedbacks.where(:status => "published")
 		end

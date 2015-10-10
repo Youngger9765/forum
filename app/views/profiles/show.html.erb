@@ -70,11 +70,11 @@
 	
 <table class="table">
 	<tr>
-		<td><%= link_to "Title", profile_path( :order => "name")%></td>
+		<td><%= sort_link(@q, :name, '標題') %></td>
 		<td>Category</td>
 		<td>User</td>
-		<td><%= link_to "Post Time", profile_path( :order => "created_at")%></td>
-		<td> <%= link_to "Feedbacks", profile_path( :order => "feedbacks_count")%></td>
+		<td><%= sort_link(@q, :created_at, '發表時間') %></td>
+		<td><%= sort_link(@q, :feedbacks_count, '回覆數') %></td>
 		<td>Feedbackers</td>
 		<td>Control</td>
 		<td>Status</td>
@@ -118,6 +118,8 @@
 		</tr>
 	<%end%>
 </table>
+
+<%= paginate @topics %>
 
 <hr>
 

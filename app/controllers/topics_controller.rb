@@ -12,29 +12,40 @@ class TopicsController < ApplicationController
 			@topic = Topic.new
 		end
 
-    if params[:tag_id]
-      @topics = Tag.find(params[:tag_id]).topics
-    elsif params[:category]
-      @topics = @topics.where(:category_id => params[:category])
-    else
-      @topics = Topic.all
-    end
-
     if current_user && current_user.admin?
-      @topics = @topics.all
-    elsif current_user
-      @topics = @topics.where("user_id = ? OR status = ?", current_user.id , "published")    
-    else
-      @topics = @topics.where(:status => "published")
+      @q = Topic.ransack(params[:q])
+    elsif current_user && !current_user.admin?
+      @q = Topic.where("user_id = ? OR status = ?", current_user.id , "published").ransack(params[:q])
+    else  
+      @q = Topic.where(:status => "published").ransack(params[:q])      
     end
 
-    if ["name", "created_at", "feedbacks_count", "latest_feedback_time"].include?( params[:order] )
-		  sort_by = (params[:order]+" DESC")	  		
-    else
-      sort_by = "id DESC"
-    end
-  		
-		@topics = @topics.order(sort_by).page(params[:page]).per(5) 
+    @topics = @q.result(distinct: true)
+    @topics = @topics.page(params[:page]).per(5) 
+    
+    #if params[:tag_id]
+    #  @topics = Tag.find(params[:tag_id]).topics
+    #elsif params[:category]
+    #  @topics = @topics.where(:category_id => params[:category])
+    #else
+    #  @topics = Topic.all
+    #end
+
+    #if current_user && current_user.admin?
+    #  @topics = @topics.all
+    #elsif current_user
+    #  @topics = @topics.where("user_id = ? OR status = ?", current_user.id , "published")    
+    #else
+    #  @topics = @topics.where(:status => "published")
+    #end
+
+    #if ["name", "created_at", "feedbacks_count", "latest_feedback_time"].include?( params[:order] )
+		#  sort_by = (params[:order]+" DESC")	  		
+    #else
+    #  sort_by = "id DESC"
+    #end
+
+		#@topics = @topics.page(params[:page]).per(5) 
 	end
 
 	def new
