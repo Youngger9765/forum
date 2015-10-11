@@ -1,0 +1,11 @@
+<h2>Firefights list</h2>
+
+
+<ul>
+  <% @firefights.each do |f| %>
+    <li><%= f.id  %></li>
+    <li><%= f.name  %></li>
+    <li><%= f.result  %></li>
+  <% end %>
+</ul>
+

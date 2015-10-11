@@ -26,6 +26,8 @@ Rails.application.routes.draw do
     resources :users
   end
 
+  resources :firefights
+
   root :to => "topics#index"
 
   # The priority is based upon order of creation: first created -> highest priority.

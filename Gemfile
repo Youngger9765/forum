@@ -1,5 +1,7 @@
 source 'https://rubygems.org'
 
+gem "rest-client"
+
 gem 'select2-rails', '~> 3.5.9.3'
 
 gem 'ransack'
