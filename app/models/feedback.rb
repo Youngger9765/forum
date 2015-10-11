@@ -8,4 +8,8 @@ class Feedback < ActiveRecord::Base
 	belongs_to :topic,  :counter_cache => true # topics#feedbacks_count
 	belongs_to :user
 
+  def created_at_format
+    self.created_at.strftime('%b %d %Y %H:%M')
+  end
+
 end

@@ -17,7 +17,7 @@
 	<tr> 
 		<td><%= @user.username %> </td>
 		<td><%= @user.email%></td> 
-		<td><%= @user.created_at%></td> 
+		<td><%= @user.created_at_format%></td> 
 		<td><%= @user.id%></td> 
 		<td><%= @user.role%></td>
 		<td><%= @user.topics.size %></td>
@@ -92,7 +92,7 @@
 
 			</td>
 			<td>
-				<%= t.created_at%>
+				<%= t.created_at_format%>
 			</td>
 			<td>
 				<%= t.feedbacks.size %> pieces of feedback
@@ -137,7 +137,7 @@
 		<tr>
 			<td><%= link_to fe.topic.name, topic_path(fe.topic.id)%></td>
 			<td><%= fe.user.username%></td>
-			<td><%= fe.created_at%></td>
+			<td><%= fe.created_at_format%></td>
 			<td><%= fe.content%></td>
 			<td>
 			<% if current_user && ( current_user == fe.user || current_user.admin?)%>
@@ -168,7 +168,7 @@
 					<td><%= link_to f.name,topic_path(f)%></td>
 					<td><%= link_to f.user.username, profile_path(:id => f.user.username) %></td>
 					<td><%= f.content%></td>
-					<td><%= f.created_at%></td>
+					<td><%= f.created_at_format%></td>
 				</tr>
 			<%end%>
 	</table>
@@ -187,7 +187,7 @@
 					<td><%= link_to f.name,topic_path(f)%></td>
 					<td><%= link_to f.user.username, profile_path(f.user.username) %></td>
 					<td><%= f.content%></td>
-					<td><%= f.created_at%></td>
+					<td><%= f.created_at_format%></td>
 				</tr>
 			<%end%>
 	</table>
@@ -207,7 +207,7 @@
 					<td><%= link_to f.name,topic_path(f)%></td>
 					<td><%= link_to f.user.username, profile_path(f.user.username) %></td>
 					<td><%= f.content%></td>
-					<td><%= f.created_at%></td>
+					<td><%= f.created_at_format%></td>
 				</tr>
 			<%end%>
 	</table>

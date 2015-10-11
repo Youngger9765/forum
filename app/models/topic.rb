@@ -41,7 +41,11 @@ class Topic < ActiveRecord::Base
 	    end
 	      tag
 	    end
-
 	end
+
+  def created_at_format
+    self.created_at.strftime('%b %d %Y %H:%M')
+  end
+  
 
 end

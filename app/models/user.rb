@@ -29,6 +29,10 @@ class User < ActiveRecord::Base
   	self.role == "admin"
   end
 
+  def created_at_format
+    self.created_at.strftime('%b %d %Y %H:%M')
+  end
+
   def self.from_omniauth(auth)
   	# Case 1: Find existing user by facebook uid
     user = User.find_by_fb_uid( auth.uid )
