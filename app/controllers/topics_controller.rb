@@ -20,15 +20,10 @@ class TopicsController < ApplicationController
       @q = Topic.where(:status => "published").ransack(params[:q])      
     end
 
+    @q.sorts = 'created_at DESC' if @q.sorts.empty?
     @topics = @q.result(distinct: true)
-
-    if params[:q]        
-      @topics = @topics.page(params[:page]).per(5) 
-
-    else
-      sort_by = ("created_at DESC")  
-      @topics = @topics.order(sort_by).page(params[:page]).per(5)
-    end
+    @topics = @topics.page(params[:page]).per(5) 
+    
 
 
 
