@@ -11,7 +11,7 @@ class TopicsController < ApplicationController
 		else
 			@topic = Topic.new
 		end
-
+ 
     if current_user && current_user.admin?
       @q = Topic.ransack(params[:q])
     elsif current_user && !current_user.admin?
@@ -21,8 +21,17 @@ class TopicsController < ApplicationController
     end
 
     @topics = @q.result(distinct: true)
-    @topics = @topics.page(params[:page]).per(5) 
-    
+
+    if params[:q]        
+      @topics = @topics.page(params[:page]).per(5) 
+
+    else
+      sort_by = ("created_at DESC")  
+      @topics = @topics.order(sort_by).page(params[:page]).per(5)
+    end
+
+
+
     #if params[:tag_id]
     #  @topics = Tag.find(params[:tag_id]).topics
     #elsif params[:category]

@@ -34,7 +34,7 @@
 		<td>Poster</td>
 		<td>Tags</td>
 		<td><%= sort_link(@q, :created_at, '發表時間') %></td>
-		<td><%= sort_link(@q, :feedbacks_count, '回覆數') %></td>
+		<td><%= sort_link(@q, :feedbacks_count, '回覆數', default_order: :desc) %></td>
 		<td>Feedbackers</td>
 		<td><%= sort_link(@q, :latest_feedback_time, '最新回覆時間') %></td>
 		<td>Control</td>
