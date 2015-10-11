@@ -1,6 +1,6 @@
 <div class="form-group">
 	<%=t.label :category_id, "Category"%>
-	<%=t.select :category_id, Category.all.map{ |x| [x.name, x.id]}, :class => "form-control"%>
+	<%=t.select :category_id, Category.all.map{ |x| [x.name, x.id]}, :class => "form-control" %>
 </div>
 
 <div class="form-group">
@@ -13,9 +13,10 @@
 	<%=t.text_field :name, :class => "form-control"%>
 </div>
 
-<div>
-	<%= t.label :tag_list %>
-	<%= t.text_field :tag_list, :class => "form-control" %>
+
+<div class="form-group">
+	<%= t.label :tag_list, "Tag_list" %>
+	<%= t.text_field :tag_list %>
 </div>
 
 <div class="form-group">
@@ -34,6 +35,17 @@
 
 </div>
 
+<%= t.submit "送出",:class => "btn btn-primary" %>
 
+<script>
+  $("#topic_category_id").select2();
+  $("#topic_status").select2();
+  $("#topic_content").select2();
+  $("#topic_tag_list").select2({
+    tags: gon.tags,
+    tokenSeparators: [',', ' ']
+  });
+
+</script>
 
 
