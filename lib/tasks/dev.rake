@@ -17,4 +17,22 @@ namespace :dev do
 
   end
 
+  task :fetch_legislator => :environment do
+    puts "fetching legislators"
+
+    url = "https://congressonline.azurewebsites.net/Api/Legislators/List?committee=0&legislatorSession=8
+  "
+
+    raw_content = RestClient.get(url)
+
+    data = JSON.parse( raw_content )
+
+    data.each do |le|  
+
+        Legislator.create( :legislator_id => le["LegislatorId"], :name => le["FullName"], :party => le["Party"])
+
+    end
+
+  end
+
 end

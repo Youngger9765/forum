@@ -27,6 +27,7 @@ Rails.application.routes.draw do
   end
 
   resources :firefights
+  resources :legislators
 
   root :to => "topics#index"
 
