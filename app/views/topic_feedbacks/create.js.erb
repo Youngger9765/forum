@@ -1,5 +1,4 @@
 $("#feedbacks-content-area").val("");
 $("#feedbacks-logo-area").val("");
 
-$("#feedbacks-table").append("<%=j render(:partial => "feedback")%>")
-
+$("#feedbacks-table").children("tbody").append("<%=j render 'feedback'%>")

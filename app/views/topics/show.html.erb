@@ -73,43 +73,45 @@
 
 <h3>Feedbacks</h3>
 <table class="table" id="feedbacks-table">
-	
-	<tr>
-    <td>Feedbacker</td>
-    <td>Content</td>
-    <td>Feedback Time</td>
-    <td>Control</td>
-    <td>Status</td>
-  </tr>
+	<thead>
+  	<tr>
+      <td>Feedbacker</td>
+      <td>Content</td>
+      <td>Feedback Time</td>
+      <td>Control</td>
+      <td>Status</td>
+    </tr>
+  </thead>
+  <tbody>
+    <% @feedbacks.each do |fe| %>
+      <tr id="feedback-<%= fe.id %>">
+        <td>
+          <%= link_to profile_path(fe.user) do %>
+             <%= image_tag fe.user.gravatar_url, :size =>"30x30" %>
+             <%= fe.user.username %>
+          <% end %>
 
-<% @feedbacks.each do |fe| %>
-  <tr id="feedback-<%= fe.id %>">
-    <td>
-      <%= link_to profile_path(fe.user) do %>
-         <%= image_tag fe.user.gravatar_url, :size =>"30x30" %>
-         <%= fe.user.username %>
-      <% end %>
+        </td>
+        <td>
+          <%= fe.content%>
+          <% if fe.logo.exists? %>
+            <%= link_to image_tag(fe.logo.url(:thumb)),fe.logo.url%>
+          <%end%>
+        </td>
+        <td><%= fe.created_at%></td>
 
-    </td>
-    <td>
-      <%= fe.content%>
-      <% if fe.logo.exists? %>
-        <%= link_to image_tag(fe.logo.url(:thumb)),fe.logo.url%>
-      <%end%>
-    </td>
-    <td><%= fe.created_at%></td>
-
-    <td>
-    <% if current_user && ( fe.user == current_user || current_user.admin? ) %>
-      <%= link_to "Edit", edit_topic_feedback_path(@topic,fe),:class => "btn btn-default"%>
-      <%= link_to "Delete", topic_feedback_path(@topic,fe), :remote => true, :method => :delete, :class => "btn btn-danger"%>
-    <% end %>
-    </td>
-    <td>
-      <%= fe.status %>
-    </td>
-  </tr>
-<%end%>
+        <td>
+        <% if current_user && ( fe.user == current_user || current_user.admin? ) %>
+          <%= link_to "Edit", edit_topic_feedback_path(@topic,fe),:class => "btn btn-default"%>
+          <%= link_to "Delete", topic_feedback_path(@topic,fe), :remote => true, :method => :delete, :class => "btn btn-danger"%>
+        <% end %>
+        </td>
+        <td>
+          <%= fe.status %>
+        </td>
+      </tr>
+    <%end%>
+  </tbody>
 
 </table>
 

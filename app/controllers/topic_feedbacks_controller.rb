@@ -15,7 +15,7 @@ class TopicFeedbacksController < ApplicationController
 	end
 
 	def create
-		@feedbacks = @topic.feedbacks.all
+		# @feedbacks = @topic.feedbacks.all
 		@feedback = @topic.feedbacks.build(feedback_params)
 		@feedback.user = current_user
 

@@ -1,27 +1,27 @@
 
-  <tr id="feedback-<%= fe.id %>">
+  <tr id="feedback-<%= @feedback.id %>">
     <td>
-      <%= link_to profile_path(fe.user) do %>
-         <%= image_tag fe.user.gravatar_url, :size =>"30x30" %>
-         <%= fe.user.username %>
+      <%= link_to profile_path(@feedback.user) do %>
+         <%= image_tag @feedback.user.gravatar_url, :size =>"30x30" %>
+         <%= @feedback.user.username %>
       <% end %>
 
     </td>
     <td>
-      <%= fe.content%>
-      <% if fe.logo.exists? %>
-        <%= link_to image_tag(fe.logo.url(:thumb)),fe.logo.url%>
+      <%= @feedback.content%>
+      <% if @feedback.logo.exists? %>
+        <%= link_to image_tag(@feedback.logo.url(:thumb)),@feedback.logo.url%>
       <%end%>
     </td>
-    <td><%= fe.created_at%></td>
+    <td><%= @feedback.created_at%></td>
 
     <td>
-    <% if current_user && ( fe.user == current_user || current_user.admin? ) %>
-      <%= link_to "Edit", edit_topic_feedback_path(@topic,fe),:class => "btn btn-default"%>
-      <%= link_to "Delete", topic_feedback_path(@topic,fe), :remote => true, :method => :delete, :class => "btn btn-danger"%>
+    <% if current_user && ( @feedback.user == current_user || current_user.admin? ) %>
+      <%= link_to "Edit", edit_topic_feedback_path(@topic,@feedback),:class => "btn btn-default"%>
+      <%= link_to "Delete", topic_feedback_path(@topic,@feedback), :remote => true, :method => :delete, :class => "btn btn-danger"%>
     <% end %>
     </td>
     <td>
-      <%= fe.status %>
+      <%= @feedback.status %>
     </td>
   </tr>
